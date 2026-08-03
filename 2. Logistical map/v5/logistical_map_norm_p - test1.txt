@@ -1,0 +1,35 @@
+[INFO] building pool of 2000 samples (computed once)...
+[INFO] raw features    : 11  →  ['r', 'mean_x', 'std_x', 'var_d1', 'var_d2', 'ac1', 'ac2', 'n_occ', 'spread', 'dist_bifurc', 'abs_dist']
+[INFO] encoded features: 11  →  ['pienc_r_val_sin_pi', 'pienc_mean_x_cos_pi', 'pienc_std_sin_2pi', 'pienc_var_d1_sin_pi2', 'pienc_var_d2_sin_pi2', 'pienc_ac1_cos_pi', 'pienc_ac2_cos_pi', 'pienc_n_occ_sin_pi2', 'pienc_spread_cos_pi', 'pienc_abs_dist_sin_pi', 'pienc_inv_n_occ_cos_pi']
+[INFO] sweep: n∈[11, 22, 33, 50, 100, 150, 200, 300, 500]  seeds=10  5-fold CV
+
+  seed 1/10 done
+  seed 2/10 done
+  seed 3/10 done
+  seed 4/10 done
+  seed 5/10 done
+  seed 6/10 done
+  seed 7/10 done
+  seed 8/10 done
+  seed 9/10 done
+  seed 10/10 done
+
+========================================================================
+  11 RAW vs 11 ENCODED — XGB encoded vs baselines  (10 seeds, 5-fold CV)
+========================================================================
+      n        RF raw       XGB raw        RF enc       XGB enc  XGB enc > XGB raw?
+  ─────  ────────────  ────────────  ────────────  ────────────  ──────────────────
+     11  -10.3309±13.784  -36.2348±60.243  -14.9170±24.504  -10.4238±11.936  YES  (Δ=+25.8110)
+     22  0.2220±0.399  -0.3023±1.060  0.2388±0.401  0.2481±0.467  YES  (Δ=+0.5504)
+     33  0.4369±0.493  0.4345±0.369  0.5536±0.315  0.5749±0.280  YES  (Δ=+0.1404)
+     50  0.7947±0.079  0.5109±0.394  0.8004±0.076  0.7277±0.178  YES  (Δ=+0.2168)
+    100  0.8979±0.048  0.8758±0.043  0.8880±0.046  0.8712±0.084  NO   (Δ=-0.0046)
+    150  0.9187±0.033  0.8737±0.076  0.9062±0.033  0.8927±0.058  YES  (Δ=+0.0189)
+    200  0.9365±0.024  0.9177±0.038  0.9280±0.019  0.9209±0.039  YES  (Δ=+0.0032)
+    300  0.9509±0.015  0.9252±0.033  0.9482±0.014  0.9438±0.024  YES  (Δ=+0.0186)
+    500  0.9695±0.008  0.9672±0.011  0.9682±0.010  0.9711±0.009  YES  (Δ=+0.0038)
+========================================================================
+  XGB encoded beats XGB raw at 8/9 sample sizes
+========================================================================
+
+[TIMING] Total: 552.7s

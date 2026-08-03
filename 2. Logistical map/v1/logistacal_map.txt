@@ -1,0 +1,86 @@
+PS C:\Users\Radu\Desktop\intentional symbolic precognitive computing> python logistical_map.py
+[INFO] generating logistic map dataset...
+[INFO] computing sequence statistics...
+[TIMING] sequence generation: 0.3s
+[INFO] computing Lyapunov exponents (target — ground truth)...
+[TIMING] Lyapunov computation: 0.5s
+
+[INFO] Bifurcation constant : r = 3.5699456
+[INFO] Stable  regime (λ<0) : 376  / 500
+[INFO] Chaotic regime (λ≥0) : 124 / 500
+
+[INFO] Feature sets:
+  Raw statistics : 11
+  Full encoded   : 50
+
+[INFO] cross-validating...
+
+  [RF raw (baseline)]
+    R²=0.9833±0.0134  RMSE=0.0547  Time: 2.8s
+  [RF full encoded]
+    R²=0.9822±0.0115  RMSE=0.0578  Time: 2.9s
+  [XGB raw (baseline)]
+    R²=0.9737±0.0158  RMSE=0.0711  Time: 0.7s
+  [XGB full encoded]
+    R²=0.9815±0.0115  RMSE=0.0592  Time: 1.1s
+
+=================================================================
+  BEST MODEL : RF raw (baseline)
+  R²         : 0.9833
+=================================================================
+
+[INFO] feature importance (full encoded set, all data)...
+[TIMING] importance fit: 0.5s
+
+  Top 15 features:
+  eenc_inv_n_occ_exp_neg                    : 0.0848  ######
+  eenc_inv_n_occ_pow_e                      : 0.0585  ####
+  pienc_abs_dist_cascade                    : 0.0501  ####
+  pienc_n_occ_cos_pi                        : 0.0497  ###
+  cross_var_x_ac2                           : 0.0492  ###
+  pienc_n_occ_sin_pi                        : 0.0456  ###
+  pienc_var_d2_cascade                      : 0.0432  ###
+  pienc_var_d1_sin_2pi                      : 0.0422  ###
+  pienc_r_val_sin_pi                        : 0.0358  ##
+  pienc_r_val_sin_2pi                       : 0.0358  ##
+  pienc_var_d1_cascade                      : 0.0343  ##
+  pienc_r_val_cos_pi                        : 0.0339  ##
+  cross_std_x_ac1                           : 0.0337  ##
+  pienc_n_occ_sin_2pi                       : 0.0315  ##
+  pienc_r_val_sin_pi2                       : 0.0275  ##
+
+  Category importances (full dataset):
+  Pi-encoded (Fourier)    : 0.7071  (70.7%)
+  E-encoded (exponential) : 0.2012  (20.1%)
+  Cross-products          : 0.0917  (9.2%)
+
+[INFO] regime-split feature importance (core verification)...
+
+  Stable regime  (λ<0, n=376):
+    Pi-encoded importance : 0.9000  (90.0%)
+    E-encoded importance  : 0.0644  (6.4%)
+    Dominant encoding     : Pi (incorrect)
+
+  Chaotic regime (λ≥0, n=124):
+    Pi-encoded importance : 0.6016  (60.2%)
+    E-encoded importance  : 0.2768  (27.7%)
+    Dominant encoding     : Pi (correct)
+
+=================================================================
+  VERIFICATION: PARTIAL
+  Pi-encoding correctly dominates chaotic regime
+  E-encoding does NOT dominate stable regime
+  E weights may need revision for general use
+=================================================================
+
+[INFO] timing comparison (paper 3 data):
+  RF raw (baseline)             : 2.8s
+  RF full encoded               : 2.9s
+  XGB raw (baseline)            : 0.7s
+  XGB full encoded              : 1.1s
+  RF speedup with encoding : 0.98x
+  XGB speedup with encoding : 2.75x
+  XGB encoding overhead     : 0.65x  (raw vs encoded)
+[INFO] plot saved to logistic_map_encoding_verification.png
+
+[TIMING] Total wall time: 13.6s

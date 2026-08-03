@@ -1,0 +1,97 @@
+PS C:\Users\Radu\Desktop\ml project\v3> python encode_surrogate.py --dataset "C:/Users/Radu/Desktop/ml project/v3/last_run_designs.csv"
+[INFO] loading dataset...
+[INFO] loaded 200 design points
+
+[INFO] Confirmed physical constants:
+  Frequency         : 28.0 GHz
+  λ_free            : 10.714 mm
+  εr_rubber         : 4.5  (confirmed HFSS, measured at 9.4GHz)
+  λ_rubber          : 5.051 mm  (wave in protective layer)
+  Half-wave rubber  : 2.525 mm  (resonance threshold)
+  Full-wave rubber  : 5.051 mm  (resonance threshold)
+  NF boundary       : 1.705 mm  (λ/2π at 28GHz)
+  MODULE_Y          : 46.53 mm  (confirmed HFSS geometry)
+  Phantom radius    : 12.0 mm  (confirmed)
+  Aperture Z half   : 10.5 mm  (confirmed Edge_39592=21mm)
+  Aperture Y half   : 62.82 mm  (computed from cavity)
+  GAP_SPREAD        : 4.594 mm  = 10.5²/(2×12.0)  [Z only — cylinder in Y]
+  GAP_SPREAD/λ_free : 0.429  (nearly half a wavelength)
+  Max layer/λ_rubber: 1.179  (layers up to 1.18 wavelengths)
+  Curvature in Y    : NONE  (cylinder axis in Y, flat in Y)
+
+[INFO] Feature sets:
+  Raw inputs        : 4
+  Pi groups only    : 28
+  Full encoded      : 89
+
+[INFO] cross-validating (previous best R² = 0.5514)...
+
+  [RF raw (baseline)]
+    RMSE=0.4502 W/m²  R²=0.5441±0.0734  RelErr=29.4%  (Δ=-0.0073)
+    Time: 2.7s
+  [RF Pi groups only]
+    RMSE=0.4458 W/m²  R²=0.5365±0.0592  RelErr=29.7%  (Δ=-0.0149)
+    Time: 2.7s
+  [RF full encoded]
+    RMSE=0.4460 W/m²  R²=0.5403±0.0359  RelErr=29.5%  (Δ=-0.0111)
+    Time: 2.7s
+  [XGB full encoded]
+    RMSE=0.4477 W/m²  R²=0.5328±0.0667  RelErr=30.1%  (Δ=-0.0186)
+    Time: 1.1s
+
+=================================================================
+  BEST MODEL       : RF raw (baseline)
+  R²               : 0.5441
+  vs previous best : -0.0073
+=================================================================
+
+[INFO] feature importance in full encoded set...
+[TIMING] Feature importance RF fit: 0.5s
+
+  Top 20 features:
+  Pi11_curvature_ratio                : 0.0447  ###
+  pienc_gap_mod_cos_pi                : 0.0427  ###
+  Pi12_path_ratio                     : 0.0406  ###
+  eenc_solid_ang_exp_neg              : 0.0406  ###
+  cross_solidang_x_loss               : 0.0405  ###
+  pienc_gap_nf_cos_pi                 : 0.0380  ###
+  Pi3_gap_module_ratio                : 0.0375  ##
+  Pi27_curvature_nf                   : 0.0363  ##
+  pienc_gap_wl_cos_pi                 : 0.0340  ##
+  Pi2_gap_nf_ratio                    : 0.0310  ##
+  pienc_curv_cos_pi                   : 0.0289  ##
+  eenc_solid_ang_pow_e                : 0.0276  ##
+  Pi13_solid_angle                    : 0.0276  ##
+  Pi1_gap_wl_free                     : 0.0270  ##
+  Pi18_source_coupling                : 0.0219  #
+  Pi17_pyramid_ctrl                   : 0.0219  #
+  Pi19_regime_ratio                   : 0.0201  #
+  cross_path_x_tand                   : 0.0160  #
+  eenc_lower_et_exp_neg               : 0.0152  #
+  Pi8_lower_module                    : 0.0143  #
+
+  Category importances:
+  Raw Pi groups               : 0.4150  (41.5%)
+  Pi-encoded (Fourier)        : 0.3228  (32.3%)
+  E-encoded (exponential)     : 0.1528  (15.3%)
+  Cross-products              : 0.1095  (10.9%)
+
+  Physics mechanism importances:
+  Standing wave (rubber layer): 0.0501  (5.0%)
+  Curvature correction        : 0.1356  (13.6%)
+  Regime competition          : 0.1031  (10.3%)
+
+[SAFETY ANALYSIS]
+  High-SAR underprediction : 23/25  (92%)
+  Correction factor        : 1.615x
+[INFO] plot saved to surrogate_dimensionless_diagnostic.png
+[INFO] saved to headset_em_surrogate_dimensionless.pkl
+
+[INFO] Resonance thresholds (for paper Methods section):
+  Half-wave in rubber : 2.525 mm
+  Full-wave in rubber : 5.051 mm
+  Layer range in DoE  : 0.044 – 5.956 mm
+  Designs with at least one layer > half-wave: 165/200 (82%)
+  Designs with at least one layer > full-wave: 59/200 (30%)
+
+[TIMING] Total wall time: 12.3s

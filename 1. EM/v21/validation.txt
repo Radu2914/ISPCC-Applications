@@ -1,0 +1,54 @@
+PS C:\Users\Radu\Desktop\ml project> python validate_equation.py --dataset "C:/Users/Radu/Desktop/ml project/last_run_designs.csv"
+=======================================================
+  EQUATION VALIDATION
+  [Qualitative model — not used for point prediction]
+=======================================================
+  R²            : -1.1265
+  RMSE          : 1.0092 W/m²
+  Mean rel error: 78.0%
+
+  Fitted equation:
+  P = 2.3410
+    × gap^(-0.8120)
+    × upper_layer^(-0.1240)
+    × lower_layer^(-0.2310)
+    × dielectric^(0.4450)
+
+  PHYSICAL SANITY CHECKS:
+  gap exponent   = -0.8120  →  ✅ negative (more gap = less absorption)
+  upper exponent = -0.1240  →  ✅ negative (thicker layer = more shielding)
+  lower exponent = -0.2310  →  ✅ negative (thicker layer = more shielding)
+  diel exponent  = 0.4450  →  ⚠️  positive (higher dielectric couples more energy into tissue) — verify against material spec
+
+  MONOTONICITY CHECKS (varying one variable, others held at median):
+  Power vs gap        : 4.262 → 0.079 W/m²  (decreasing ✅)
+  Power vs upper layer: 0.234 → 0.127 W/m²  (decreasing ✅)
+  Power vs lower layer: 0.367 → 0.118 W/m²  (decreasing ✅)
+  Power vs dielectric : 0.067 → 0.180 W/m²  (check material spec)
+
+  SPOT CHECK — known simulation points:
+  Row       gap  upper  lower    diel    Actual   Eq.pred   Error%
+  -----------------------------------------------------------------
+  0        7.32   3.84   5.16  0.1749    0.6231    0.1239    80.1%
+  10       8.21   2.34   4.46  0.1404    0.5091    0.1128    77.9%
+  50       3.44   4.90   1.99  0.1696    1.0433    0.2731    73.8%
+  100      1.18   3.86   0.95  0.1605    3.6262    0.7740    78.7%
+  150      1.18   1.59   0.50  0.0868    2.9287    0.7633    73.9%
+
+  [NOTE] Large errors are expected — this equation is used for
+         qualitative directional analysis only, not point prediction.
+         Quantitative prediction is handled by the ensemble surrogate.
+
+[INFO] generating sensitivity plots...
+[INFO] sensitivity plot saved to equation_validation.png
+
+[INFO] running bootstrap stability check...
+[INFO] saved sensitivity_bootstrap.png
+
+  Bootstrap stability summary:
+  Mean ±2σ band width (gap > 2mm) : 0.0544 W/m²  → stable ✅
+  Mean ±2σ band width (gap < 1mm) : 0.7851 W/m²  → uncertain ⚠️
+  Reactive near-field boundary    : λ/2π ≈ 1.7 mm at 28 GHz
+  Interpretation: sensitivity curve is robust for design-relevant
+  gap values (>2mm) and uncertain in the near-contact regime (<1mm),
+  consistent with reactive near-field electromagnetic theory.

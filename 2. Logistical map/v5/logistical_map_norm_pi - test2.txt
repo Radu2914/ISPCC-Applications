@@ -1,0 +1,39 @@
+PS C:\Users\Radu\Desktop\intentional symbolic precognitive computing\logistical map\v5> python logistical_map_norm_pi.py
+[INFO] building pool of 2000 samples (computed once)...
+[INFO] raw features    : 11  →  ['r', 'mean_x', 'std_x', 'var_d1', 'var_d2', 'ac1', 'ac2', 'n_occ', 'spread', 'dist_bifurc', 'abs_dist']
+[INFO] encoded features: 11  →  ['pienc_r_val_sin_pi', 'pienc_mean_x_cos_pi', 'pienc_std_sin_2pi', 'pienc_var_d1_sin_pi2', 'pienc_var_d2_sin_pi2', 'pienc_ac1_cos_pi', 'pienc_ac2_cos_pi', 'pienc_n_occ_sin_pi2', 'pienc_spread_cos_pi', 'pienc_abs_dist_sin_pi', 'pienc_inv_n_occ_cos_pi']
+[INFO] sweep: n∈[11, 22, 33, 50, 66, 100, 110, 121, 150, 200, 300, 500]  seeds=10  5-fold CV
+
+  seed 1/10 done
+  seed 2/10 done
+  seed 3/10 done
+  seed 4/10 done
+  seed 5/10 done
+  seed 6/10 done
+  seed 7/10 done
+  seed 8/10 done
+  seed 9/10 done
+  seed 10/10 done
+
+========================================================================
+  11 RAW vs 11 ENCODED — XGB encoded vs baselines  (10 seeds, 5-fold CV)
+========================================================================
+      n        RF raw       XGB raw        RF enc       XGB enc  XGB enc > XGB raw?
+  ─────  ────────────  ────────────  ────────────  ────────────  ──────────────────
+     11  -10.3309±13.784  -36.2348±60.243  -14.9170±24.504  -10.4238±11.936  YES  (Δ=+25.8110)
+     22   0.2220±0.399    -0.3023±1.060     0.2388±0.401     0.2481±0.467    YES  (Δ=+0.5504)
+     33   0.4369±0.493     0.4345±0.369     0.5536±0.315     0.5749±0.280    YES  (Δ=+0.1404)
+     50   0.7947±0.079     0.5109±0.394     0.8004±0.076     0.7277±0.178    YES  (Δ=+0.2168)
+     66   0.8052±0.103     0.7719±0.165     0.8069±0.107     0.8218±0.132    YES  (Δ=+0.0500)
+    100   0.8798±0.070     0.8450±0.114     0.8898±0.030     0.8680±0.086    YES  (Δ=+0.0231)
+    110   0.9171±0.022     0.8665±0.119     0.8977±0.045     0.7909±0.239    NO   (Δ=-0.0756)
+    121   0.8860±0.061     0.8547±0.100     0.8933±0.038     0.8605±0.095    YES  (Δ=+0.0058)
+    150   0.9151±0.046     0.8925±0.060     0.9101±0.041     0.8881±0.061    NO   (Δ=-0.0043)
+    200   0.9279±0.020     0.9027±0.046     0.9237±0.017     0.8972±0.044    NO   (Δ=-0.0056)
+    300   0.9472±0.010     0.9454±0.013     0.9461±0.012     0.9521±0.014    YES  (Δ=+0.0067)
+    500   0.9704±0.011     0.9662±0.016     0.9694±0.009     0.9634±0.018    NO   (Δ=-0.0028)
+========================================================================
+  XGB encoded beats XGB raw at 8/12 sample sizes
+========================================================================
+
+[TIMING] Total: 734.5s

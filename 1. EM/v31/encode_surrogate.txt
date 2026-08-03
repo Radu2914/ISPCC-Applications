@@ -1,0 +1,175 @@
+PS C:\Users\Radu\Desktop\ml project\v31> python encode_surrogate.py --dataset "C:/Users/Radu/Desktop/ml project/v31/last_run_designs.csv"
+[INFO] loading dataset...
+[INFO] loaded 200 design points
+
+[INFO] Confirmed physical constants:
+  Frequency         : 28.0 GHz
+  λ_free            : 10.714 mm
+  εr_rubber         : 4.5  (confirmed HFSS, measured at 9.4GHz)
+  λ_rubber          : 5.051 mm  (wave in protective layer)
+  Half-wave rubber  : 2.525 mm  (resonance threshold)
+  Full-wave rubber  : 5.051 mm  (resonance threshold)
+  NF boundary       : 1.705 mm  (λ/2π at 28GHz)
+  MODULE_Y          : 46.53 mm  (confirmed HFSS geometry)
+  Phantom radius    : 12.0 mm  (confirmed)
+  Aperture Z half   : 10.5 mm  (confirmed Edge_39592=21mm)
+  Aperture Y half   : 62.82 mm  (computed from cavity)
+  GAP_SPREAD        : 4.594 mm  = 10.5²/(2×12.0)  [Z only — cylinder in Y]
+  GAP_SPREAD/λ_free : 0.429  (nearly half a wavelength)
+  Max layer/λ_rubber: 1.179  (layers up to 1.18 wavelengths)
+  Curvature in Y    : NONE  (cylinder axis in Y, flat in Y)
+
+[INFO] Feature sets:
+  Raw inputs        : 4
+  Raw encoded       : 19  (same 4 inputs, Buckingham Pi basis)
+  Pi groups only    : 28
+  Full encoded      : 89
+
+─────────────────────────────────────────────────────────────────
+  N = 50   (10 independent seeds)
+─────────────────────────────────────────────────────────────────
+  seed=0  R²_raw=0.3524  R²_rawenc=0.3165  Δ=-0.0359  R²_fullenc=0.2297
+  seed=1  R²_raw=0.3800  R²_rawenc=0.2297  Δ=-0.1503  R²_fullenc=0.3179
+  seed=2  R²_raw=0.2815  R²_rawenc=0.1730  Δ=-0.1084  R²_fullenc=0.2426
+  seed=3  R²_raw=0.4448  R²_rawenc=0.2696  Δ=-0.1752  R²_fullenc=0.3834
+  seed=4  R²_raw=0.4973  R²_rawenc=0.4048  Δ=-0.0925  R²_fullenc=0.3717
+  seed=5  R²_raw=0.3947  R²_rawenc=0.3234  Δ=-0.0713  R²_fullenc=0.4050
+  seed=6  R²_raw=0.2557  R²_rawenc=0.1179  Δ=-0.1379  R²_fullenc=0.4010
+  seed=7  R²_raw=0.2681  R²_rawenc=0.2856  Δ=+0.0175  R²_fullenc=0.2842
+  seed=8  R²_raw=0.1185  R²_rawenc=0.0907  Δ=-0.0278  R²_fullenc=-0.1175
+  seed=9  R²_raw=0.3116  R²_rawenc=0.1818  Δ=-0.1298  R²_fullenc=0.2828
+
+  Averages over 10 seeds:
+  candidate                  mean R²    ±std
+  ──────────────────────────────────────────
+  RF raw (baseline)           0.3305  0.1025
+  RF raw encoded              0.2393  0.0939
+  XGB raw encoded             0.1966  0.2001
+  RF full encoded             0.2801  0.1459
+  XGB full encoded            0.1673  0.2282
+
+─────────────────────────────────────────────────────────────────
+  N = 100   (10 independent seeds)
+─────────────────────────────────────────────────────────────────
+  seed=0  R²_raw=0.5698  R²_rawenc=0.5410  Δ=-0.0287  R²_fullenc=0.6102
+  seed=1  R²_raw=0.6357  R²_rawenc=0.5711  Δ=-0.0646  R²_fullenc=0.6206
+  seed=2  R²_raw=0.6175  R²_rawenc=0.5757  Δ=-0.0419  R²_fullenc=0.5778
+  seed=3  R²_raw=0.4953  R²_rawenc=0.4201  Δ=-0.0752  R²_fullenc=0.4718
+  seed=4  R²_raw=0.5359  R²_rawenc=0.4867  Δ=-0.0491  R²_fullenc=0.4898
+  seed=5  R²_raw=0.5480  R²_rawenc=0.4519  Δ=-0.0961  R²_fullenc=0.5054
+  seed=6  R²_raw=0.4985  R²_rawenc=0.3929  Δ=-0.1055  R²_fullenc=0.5455
+  seed=7  R²_raw=0.4980  R²_rawenc=0.4483  Δ=-0.0496  R²_fullenc=0.5381
+  seed=8  R²_raw=0.4816  R²_rawenc=0.3859  Δ=-0.0956  R²_fullenc=0.4209
+  seed=9  R²_raw=0.5482  R²_rawenc=0.4853  Δ=-0.0629  R²_fullenc=0.5369
+
+  Averages over 10 seeds:
+  candidate                  mean R²    ±std
+  ──────────────────────────────────────────
+  RF raw (baseline)           0.5429  0.0500
+  RF raw encoded              0.4759  0.0655
+  XGB raw encoded             0.5167  0.0828
+  RF full encoded             0.5317  0.0589
+  XGB full encoded            0.5034  0.0897
+
+─────────────────────────────────────────────────────────────────
+  N = 150   (10 independent seeds)
+─────────────────────────────────────────────────────────────────
+  seed=0  R²_raw=0.5379  R²_rawenc=0.5070  Δ=-0.0308  R²_fullenc=0.5181
+  seed=1  R²_raw=0.5210  R²_rawenc=0.4618  Δ=-0.0592  R²_fullenc=0.5039
+  seed=2  R²_raw=0.5428  R²_rawenc=0.5272  Δ=-0.0156  R²_fullenc=0.5704
+  seed=3  R²_raw=0.5399  R²_rawenc=0.5194  Δ=-0.0204  R²_fullenc=0.5131
+  seed=4  R²_raw=0.4434  R²_rawenc=0.4311  Δ=-0.0124  R²_fullenc=0.4470
+  seed=5  R²_raw=0.5834  R²_rawenc=0.5289  Δ=-0.0546  R²_fullenc=0.5810
+  seed=6  R²_raw=0.5064  R²_rawenc=0.4814  Δ=-0.0250  R²_fullenc=0.4777
+  seed=7  R²_raw=0.5758  R²_rawenc=0.5400  Δ=-0.0359  R²_fullenc=0.5786
+  seed=8  R²_raw=0.5518  R²_rawenc=0.5105  Δ=-0.0413  R²_fullenc=0.5366
+  seed=9  R²_raw=0.5613  R²_rawenc=0.4986  Δ=-0.0628  R²_fullenc=0.5594
+
+  Averages over 10 seeds:
+  candidate                  mean R²    ±std
+  ──────────────────────────────────────────
+  RF raw (baseline)           0.5364  0.0380
+  RF raw encoded              0.5006  0.0320
+  XGB raw encoded             0.5377  0.0467
+  RF full encoded             0.5286  0.0427
+  XGB full encoded            0.5121  0.0727
+
+─────────────────────────────────────────────────────────────────
+  N = 200   (10 independent seeds)
+─────────────────────────────────────────────────────────────────
+  seed=0  R²_raw=0.5596  R²_rawenc=0.5420  Δ=-0.0176  R²_fullenc=0.5662
+  seed=1  R²_raw=0.5282  R²_rawenc=0.5273  Δ=-0.0009  R²_fullenc=0.5608
+  seed=2  R²_raw=0.5609  R²_rawenc=0.5569  Δ=-0.0039  R²_fullenc=0.5774
+  seed=3  R²_raw=0.5427  R²_rawenc=0.5357  Δ=-0.0070  R²_fullenc=0.5285
+  seed=4  R²_raw=0.5876  R²_rawenc=0.5786  Δ=-0.0090  R²_fullenc=0.5986
+  seed=5  R²_raw=0.5017  R²_rawenc=0.4864  Δ=-0.0154  R²_fullenc=0.4747
+  seed=6  R²_raw=0.5837  R²_rawenc=0.5573  Δ=-0.0264  R²_fullenc=0.6012
+  seed=7  R²_raw=0.5782  R²_rawenc=0.5649  Δ=-0.0132  R²_fullenc=0.6000
+  seed=8  R²_raw=0.5626  R²_rawenc=0.5381  Δ=-0.0244  R²_fullenc=0.5647
+  seed=9  R²_raw=0.5651  R²_rawenc=0.5382  Δ=-0.0269  R²_fullenc=0.5552
+
+  Averages over 10 seeds:
+  candidate                  mean R²    ±std
+  ──────────────────────────────────────────
+  RF raw (baseline)           0.5570  0.0251
+  RF raw encoded              0.5425  0.0239
+  XGB raw encoded             0.5752  0.0267
+  RF full encoded             0.5627  0.0366
+  XGB full encoded            0.5617  0.0487
+
+=================================================================
+  BEST MODEL (N=200) : XGB full encoded
+  R²                 : 0.6174
+  vs previous best   : +0.0660
+=================================================================
+
+[INFO] feature importance in full encoded set...
+[TIMING] Feature importance RF fit: 0.7s
+
+  Top 20 features:
+  Pi11_curvature_ratio                : 0.0447  ###
+  pienc_gap_mod_cos_pi                : 0.0427  ###
+  Pi12_path_ratio                     : 0.0406  ###
+  eenc_solid_ang_exp_neg              : 0.0406  ###
+  cross_solidang_x_loss               : 0.0405  ###
+  pienc_gap_nf_cos_pi                 : 0.0380  ###
+  Pi3_gap_module_ratio                : 0.0375  ##
+  Pi27_curvature_nf                   : 0.0363  ##
+  pienc_gap_wl_cos_pi                 : 0.0340  ##
+  Pi2_gap_nf_ratio                    : 0.0310  ##
+  pienc_curv_cos_pi                   : 0.0289  ##
+  eenc_solid_ang_pow_e                : 0.0276  ##
+  Pi13_solid_angle                    : 0.0276  ##
+  Pi1_gap_wl_free                     : 0.0270  ##
+  Pi18_source_coupling                : 0.0219  #
+  Pi17_pyramid_ctrl                   : 0.0219  #
+  Pi19_regime_ratio                   : 0.0201  #
+  cross_path_x_tand                   : 0.0160  #
+  eenc_lower_et_exp_neg               : 0.0152  #
+  Pi8_lower_module                    : 0.0143  #
+
+  Category importances:
+  Raw Pi groups               : 0.4150  (41.5%)
+  Pi-encoded (Fourier)        : 0.3228  (32.3%)
+  E-encoded (exponential)     : 0.1528  (15.3%)
+  Cross-products              : 0.1095  (10.9%)
+
+  Physics mechanism importances:
+  Standing wave (rubber layer): 0.0501  (5.0%)
+  Curvature correction        : 0.1356  (13.6%)
+  Regime competition          : 0.1031  (10.3%)
+
+[SAFETY ANALYSIS]
+  High-SAR underprediction : 23/25  (92%)
+  Correction factor        : 1.445x
+[INFO] plot saved to surrogate_rawenc_diagnostic.png
+[INFO] saved to headset_em_surrogate_dimensionless.pkl
+
+[INFO] Resonance thresholds (for paper Methods section):
+  Half-wave in rubber : 2.525 mm
+  Full-wave in rubber : 5.051 mm
+  Layer range in DoE  : 0.044 – 5.956 mm
+  Designs with at least one layer > half-wave: 165/200 (82%)
+  Designs with at least one layer > full-wave: 59/200 (30%)
+
+[TIMING] Total wall time: 394.8s

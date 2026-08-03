@@ -1,0 +1,101 @@
+PS C:\Users\Radu\Desktop\intentional symbolic precognitive computing\v2> python logistical_map_norm.py
+[INFO] generating logistic map dataset...
+[INFO] computing sequence statistics...
+[TIMING] sequence generation: 0.3s
+[INFO] computing Lyapunov exponents (target — ground truth)...
+[TIMING] Lyapunov computation: 0.5s
+
+[INFO] Bifurcation constant : r = 3.5699456
+[INFO] Stable  regime (λ<0) : 376  / 500
+[INFO] Chaotic regime (λ≥0) : 124 / 500
+
+[INFO] Feigenbaum normalization constants (structurally grounded):
+  δ  (bifurcation interval ratio) : 4.669201609
+  α  (attractor width scaling)    : 2.502907875
+  ── Pi-encoded scales (cascading variables) ──────────────────
+  r_val    ÷ R_BIFURCATION        : 3.5699456  (chaos threshold)
+  abs_dist ÷ chaotic regime width : 0.4300544  (R_MAX - R_BIF)
+  std_x    ÷ 1/(2α)              : 0.1997676  (attractor width unit)
+  var_d*   ÷ (1/(2α))²           : 0.0399071  (variance unit)
+  spread   ÷ α                   : 2.5029079  (Feigenbaum width scale)
+  n_occ    ÷ δ²                  : 21.8014437  (period count unit)
+  ── E-encoded scales (self-regulating variables) ─────────────
+  ac1/ac2  ÷ 1.0                 : 1.0000000  (naturally bounded)
+  mean_x   ÷ (R_BIF-1)/R_BIF    : 0.7198837  (fixed-point at bifurcation)
+  inv_n_occ÷ 1/δ                : 0.2141694  (inverse period unit)
+
+[INFO] Feature sets:
+  Raw statistics : 11
+  Full encoded   : 50
+
+[INFO] cross-validating...
+
+  [RF raw (baseline)]
+    R²=0.9833±0.0134  RMSE=0.0547  Time: 2.8s
+  [RF full encoded]
+    R²=0.9777±0.0113  RMSE=0.0659  Time: 2.8s
+  [XGB raw (baseline)]
+    R²=0.9737±0.0158  RMSE=0.0711  Time: 0.6s
+  [XGB full encoded]
+    R²=0.9787±0.0102  RMSE=0.0640  Time: 0.9s
+
+=================================================================
+  BEST MODEL : RF raw (baseline)
+  R²         : 0.9833
+=================================================================
+
+[INFO] feature importance (full encoded set, all data)...
+[TIMING] importance fit: 0.5s
+
+  Top 15 features:
+  eenc_inv_n_occ_exp_neg                    : 0.0782  ######
+  pienc_std_sin_2pi                         : 0.0699  #####
+  eenc_inv_n_occ_pow_e                      : 0.0572  ####
+  pienc_n_occ_sin_pi2                       : 0.0514  ####
+  pienc_n_occ_sin_pi                        : 0.0499  ###
+  pienc_n_occ_cos_pi                        : 0.0477  ###
+  pienc_abs_dist_sin_2pi                    : 0.0427  ###
+  pienc_spread_sin_pi2                      : 0.0414  ###
+  cross_var_x_ac2                           : 0.0390  ###
+  pienc_n_occ_sin_2pi                       : 0.0368  ##
+  pienc_std_sin_pi2                         : 0.0356  ##
+  pienc_r_val_sin_pi                        : 0.0343  ##
+  eenc_inv_n_occ_gauss                      : 0.0297  ##
+  pienc_r_val_sin_2pi                       : 0.0273  ##
+  cross_std_x_ac1                           : 0.0260  ##
+
+  Category importances (full dataset):
+  Pi-encoded (Fourier)    : 0.7065  (70.6%)
+  E-encoded (exponential) : 0.2182  (21.8%)
+  Cross-products          : 0.0753  (7.5%)
+
+[INFO] regime-split feature importance (core verification)...
+
+  Stable regime  (λ<0, n=376):
+    Pi-encoded importance : 0.8771  (87.7%)
+    E-encoded importance  : 0.0737  (7.4%)
+    Dominant encoding     : Pi (incorrect)
+
+  Chaotic regime (λ≥0, n=124):
+    Pi-encoded importance : 0.5595  (56.0%)
+    E-encoded importance  : 0.2966  (29.7%)
+    Dominant encoding     : Pi (correct)
+
+=================================================================
+  VERIFICATION: PARTIAL
+  Pi-encoding correctly dominates chaotic regime
+  E-encoding does NOT dominate stable regime
+  E weights may need revision for general use
+=================================================================
+
+[INFO] timing comparison (paper 3 data):
+  RF raw (baseline)             : 2.8s
+  RF full encoded               : 2.8s
+  XGB raw (baseline)            : 0.6s
+  XGB full encoded              : 0.9s
+  RF speedup with encoding : 1.00x
+  XGB speedup with encoding : 3.14x
+  XGB encoding overhead     : 0.65x  (raw vs Feigenbaum-encoded)
+[INFO] plot saved to logistic_map_encoding_verification.png
+
+[TIMING] Total wall time: 15.0s

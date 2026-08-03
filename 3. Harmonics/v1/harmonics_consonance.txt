@@ -1,0 +1,52 @@
+PS C:\Users\Radu\Desktop\intentional symbolic precognitive computing\++ harmonics> python harmonics_consonance.py
+[INFO] generating harmonic pairs 1..64...
+[INFO] pool : 2080 unique pairs  (harmonics 64×65/2)
+[INFO] Euler GS — min=1  max=119  mean=27.38
+
+  Interval       Ratio  GS
+  Unison       1/1       1
+  Octave       2/1       2
+  P5           3/2       4
+  P4           4/3       5
+  M3           5/4       7
+  m3           6/5       8
+  M6           5/3       7
+  M2           9/8       8
+  m2           16/15      11
+  Tritone      45/32      14
+
+[INFO] raw features    : 11  ['log_n_low', 'log_n_high', 'log_ratio', 'log_p_num', 'log_q_den', 'log_gcd', 'tenney_h', 'log_p_plus_q', 'log_diff', 'log_euler_dist', 'p_frac']
+[INFO] encoded features: 11  ['pienc_log_n_low_sin_pi2', 'pienc_log_n_high_sin_pi2', 'pienc_log_ratio_sin_pi', 'pienc_log_p_num_cos_pi', 'pienc_log_q_den_cos_pi', 'pienc_log_gcd_cos_pi', 'pienc_tenney_h_sin_pi', 'pienc_log_p_plus_q_sin_pi', 'pienc_log_diff_sin_pi', 'pienc_log_euler_dist_sin_pi', 'pienc_p_frac_sin_pi']
+[INFO] sweep n∈[11, 22, 33, 50, 100, 150, 200, 300, 500], 10 seeds, 5-fold CV
+
+  seed 1/10 done
+  seed 2/10 done
+  seed 3/10 done
+  seed 4/10 done
+  seed 5/10 done
+  seed 6/10 done
+  seed 7/10 done
+  seed 8/10 done
+  seed 9/10 done
+  seed 10/10 done
+
+==========================================================================
+  HARMONICS — 11 RAW vs 11 ENCODED  (10 seeds, 5-fold CV, target=Euler GS)
+  pool=2080 pairs, MAX_HARMONIC=64
+==========================================================================
+      n        RF raw       XGB raw        RF enc       XGB enc  XGB enc > XGB raw?
+  -----  ------------  ------------  ------------  ------------  ------------------
+     11  -45.2591±95.681  -39.8372±65.292  -70.0732±131.733  -40.2290±79.363  NO   (Δ=-0.3918)
+     22  -2.1891±3.218  -2.5647±2.673  -2.2456±2.999  -1.7749±1.925  YES  (Δ=+0.7898)
+     33  0.2424±0.394  0.0383±0.691  0.1545±0.536  0.0655±0.601  YES  (Δ=+0.0272)
+     50  0.2582±0.228  0.1581±0.245  0.2994±0.209  0.1974±0.267  YES  (Δ=+0.0393)
+    100  0.5378±0.079  0.5219±0.088  0.5440±0.071  0.5756±0.069  YES  (Δ=+0.0537)
+    150  0.5986±0.047  0.6500±0.064  0.6067±0.051  0.6651±0.078  YES  (Δ=+0.0151)
+    200  0.5328±0.037  0.6228±0.048  0.5602±0.050  0.6410±0.072  YES  (Δ=+0.0181)
+    300  0.6090±0.051  0.7238±0.037  0.6271±0.041  0.7388±0.038  YES  (Δ=+0.0150)
+    500  0.6629±0.026  0.8010±0.017  0.6911±0.025  0.8087±0.016  YES  (Δ=+0.0077)
+==========================================================================
+  XGB encoded beats XGB raw at 8/9 sample sizes
+==========================================================================
+
+[TIMING] 519.9s

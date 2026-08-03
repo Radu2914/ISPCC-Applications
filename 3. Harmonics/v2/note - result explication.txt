@@ -1,0 +1,3 @@
+The e-encoding found something raw features can't express directly. The reduced denominator encoded through the exponential basis is the dominant signal in the entire problem. That's the probe doing its job — it told us which encoded features are actually load-bearing. Now experiment 1 uses that.
+
+For experiment 3 — I understand. Not MaxiMin (which is geometric spread in raw space). Not random. Something structurally intentional: use the encoding to identify archetypal sample points — one from each structural region of the encoded space rather than spread by raw distance. Train the encoded model on those, let it learn the structural grammar first, then the residual model learns what's left. Like learning syntax before vocabulary.

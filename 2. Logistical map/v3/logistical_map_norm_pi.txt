@@ -1,0 +1,135 @@
+PS C:\Users\Radu\Desktop\intentional symbolic precognitive computing\v3> python logistical_map_norm_pi.py
+[INFO] generating logistic map dataset...
+[INFO] computing sequence statistics...
+[TIMING] sequence generation: 0.3s
+[INFO] computing Lyapunov exponents (target — ground truth)...
+[TIMING] Lyapunov computation: 0.5s
+
+[INFO] Bifurcation constant : r = 3.5699456
+[INFO] Stable  regime (λ<0) : 376  / 500
+[INFO] Chaotic regime (λ≥0) : 124 / 500
+
+[INFO] Feigenbaum normalization constants (all variables — Pi-encoded):
+  δ  (bifurcation interval ratio) : 4.669201609
+  α  (attractor width scaling)    : 2.502907875
+  ── Original Pi-encoded (7 variables) ────────────────────────
+  r_val    ÷ R_BIFURCATION        : 3.5699456
+  abs_dist ÷ chaotic regime width : 0.4300544
+  std_x    ÷ 1/(2α)              : 0.1997676
+  var_d*   ÷ (1/(2α))²           : 0.0399071
+  spread   ÷ α                   : 2.5029079
+  n_occ    ÷ δ²                  : 21.8014437
+  ── Reclassified to Pi (4 variables) ─────────────────────────
+  ac1/ac2  ÷ 1.0                 : 1.0000000  (step-wise cascade at bifurcations)
+  mean_x   ÷ (R_BIF-1)/R_BIF    : 0.7198837  (discontinuous at bifurcations)
+  inv_n_occ÷ 1/δ                : 0.2141694  (fast step-wise transitions)
+
+[INFO] Feature sets:
+  Raw statistics          : 11
+  Full encoded (all Pi)   : 58
+    Geometric Pi (7 vars) : 35 features
+    Memory Pi    (4 vars) : 20 features
+    Cross-products (Pi×Pi): 3 features
+
+[INFO] cross-validating...
+
+  [RF raw (baseline)]
+    R²=0.9833±0.0134  RMSE=0.0547  Time: 2.8s
+  [RF full encoded]
+    R²=0.9784±0.0110  RMSE=0.0646  Time: 2.8s
+  [XGB raw (baseline)]
+    R²=0.9737±0.0158  RMSE=0.0711  Time: 0.6s
+  [XGB full encoded]
+    R²=0.9810±0.0074  RMSE=0.0611  Time: 1.0s
+
+=================================================================
+  BEST MODEL : RF raw (baseline)
+  R²         : 0.9833
+=================================================================
+
+[INFO] feature importance (full all-Pi set, all data)...
+[TIMING] importance fit: 0.5s
+
+  Top 15 features:
+  pienc_std_sin_2pi                         : 0.0608  #### [geom — attractor footprint]
+  pienc_n_occ_sin_pi2                       : 0.0577  #### [geom — attractor footprint]
+  pienc_inv_n_occ_cos_pi                    : 0.0571  #### [memo — bifurcation-sensitive]
+  pienc_n_occ_sin_2pi                       : 0.0494  ### [geom — attractor footprint]
+  pienc_n_occ_sin_pi                        : 0.0478  ### [geom — attractor footprint]
+  pienc_n_occ_cos_pi                        : 0.0451  ### [geom — attractor footprint]
+  pienc_n_occ_cascade                       : 0.0442  ### [geom — attractor footprint]
+  cross_r_x_spread                          : 0.0427  ### [cross Pi×Pi]
+  pienc_r_val_sin_pi                        : 0.0418  ### [geom — attractor footprint]
+  pienc_abs_dist_sin_2pi                    : 0.0372  ## [geom — attractor footprint]
+  pienc_r_val_sin_2pi                       : 0.0369  ## [geom — attractor footprint]
+  pienc_std_sin_pi2                         : 0.0357  ## [geom — attractor footprint]
+  pienc_r_val_sin_pi2                       : 0.0325  ## [geom — attractor footprint]
+  pienc_spread_cos_pi                       : 0.0285  ## [geom — attractor footprint]
+  pienc_spread_sin_pi2                      : 0.0266  ## [geom — attractor footprint]
+
+  Category importances (full dataset):
+  Pi geometric (7 vars)  : 0.7509  (75.1%)
+  Pi memory    (4 vars)  : 0.1861  (18.6%)
+  Pi total               : 0.9370  (93.7%)
+  Cross-products (Pi×Pi) : 0.0630  (6.3%)
+  Within-Pi split        : Geom 80.1% / Memo 19.9%
+
+[INFO] regime-split feature importance...
+
+  Stable regime  (λ<0, n=376):
+    Pi geometric importance : 0.7641  (76.4%)
+    Pi memory importance    : 0.1251  (12.5%)
+    Pi total                : 0.8892  (88.9%)
+    Within-Pi split         : Geom 85.9% / Memo 14.1%
+
+  Chaotic regime (λ≥0, n=124):
+    Pi geometric importance : 0.5346  (53.5%)
+    Pi memory importance    : 0.3155  (31.6%)
+    Pi total                : 0.8501  (85.0%)
+    Within-Pi split         : Geom 62.9% / Memo 37.1%
+
+  Subgroup shift (stable → chaotic):
+    Geometric Pi fraction  : 85.9% → 62.9%  (-23.0%)
+    Memory Pi fraction     : 14.1% → 37.1%  (+23.0%)
+    → Encoding reveals regime character through importance redistribution
+
+=================================================================
+  VERIFICATION — ALL-PI SYSTEM (DIAGNOSTIC PROBE)
+
+  PASS 1 — Pi-type system confirmed   : PASS
+           Pi total importance = 93.7% > 50% threshold
+           The logistic map is a uniformly Pi-type system.
+
+  PASS 2 — Regime-sensitive structure : PASS
+           Geometric Pi: 85.9% (stable) → 62.9% (chaotic)  [-23.0%]
+           Memory Pi  : 14.1% (stable) → 37.1% (chaotic)  [+23.0%]
+           The encoding reveals regime character through importance
+           redistribution — without regime labels in training data.
+
+  PASS 3 — Encoding lifts constrained learner : PASS
+           XGB encoded 0.9810 vs raw 0.9737  (Δ=+0.0072)  RF ceiling 0.9833
+
+  OVERALL : PASS
+
+  The encoding functions as a mathematical diagnostic probe.
+  Geometric Pi variables (attractor footprint) dominate the
+  stable regime. Memory Pi variables (autocorrelation, mean
+  position, period fragmentation) rise sharply in the chaotic
+  regime as geometric measures saturate. The model discovered
+  this structure from the importance distribution alone.
+  This diagnostic property — domain-agnostic basis yielding
+  domain-revealing importance redistribution — is the core
+  novel claim of the encoding methodology.
+=================================================================
+
+[INFO] timing comparison:
+  RF raw (baseline)             : 2.8s
+  RF full encoded               : 2.8s
+  XGB raw (baseline)            : 0.6s
+  XGB full encoded              : 1.0s
+  RF encoding overhead      : 0.99x
+  XGB vs RF encoded speed   : 2.91x
+  XGB encoding overhead     : 0.61x
+[INFO] plot saved to logistic_map_allpi_v4_verification.png
+
+[TIMING] Total wall time: 10.9s

@@ -1,0 +1,101 @@
+PS C:\Users\Radu\Desktop\ml project\v2t> python surrogate.py --dataset "C:/Users/Radu/Desktop/ml project/v2t/last_run_designs.csv"
+[INFO] loading dataset...
+[INFO] loaded 200 design points
+[INFO] 5G module centre: Y = 46.53 mm (confirmed from HFSS geometry)
+[INFO] bifurcation point: tan_d = 0.107
+[INFO] engineered features (24): ['gap', 'upper_protective_layer', 'lower_protective_layer', 'protective_layer_dielectric', 'inv_gap', 'log_gap', 'gap_sq', 'total_layer', 'inv_total_layer', 'log_total_layer', 'diel_x_gap', 'diel_x_layer', 'shield_total', 'lateral_path', 'inv_lateral', 'pyramid_control', 'source_coupling', 'regime_ratio', 'log_regime', 'diel_from_bifurc', 'bifurc_proximity', 'source_vs_pyramid', 'shield_pyramid', 'shield_lateral']
+
+[INFO] cross-validating all models...
+
+  [RF raw (baseline)]
+    RMSE=0.4503±0.1421 W/m²  R²=0.5441±0.0740  RelErr=29.4%
+  [RF physics-informed]
+    RMSE=0.4560±0.1196 W/m²  R²=0.5168±0.0559  RelErr=30.1%
+  [XGB physics-informed]
+    RMSE=0.4555±0.0975 W/m²  R²=0.5001±0.1019  RelErr=30.1%
+  [Ensemble (RF+XGB) phys]
+    RMSE=0.4467±0.1131 W/m²  R²=0.5327±0.0684  RelErr=29.7%
+[TIMING] Candidate CV: 9.5s
+
+[INFO] building stacked model (power law base → RF on physics features)...
+[TIMING] Stacked model CV: 2.8s
+  [Stacked (PowerLaw + physics features -> RF)]
+    RMSE=0.4654 W/m²  R²=0.5477  RelErr=29.6%
+
+[INFO] training conservative quantile surrogate (85th percentile)...
+[TIMING] Quantile CV: 7.1s
+
+  [Quantile surrogate — 85th percentile, log-space trained]
+    R²                              : 0.5166
+    Mean relative error             : 43.9%
+    High-SAR cases bounded (>=2.0)  : 5/25 (20%)
+    Mean overestimate in safe zone  : 0.2550 W/m²
+    Interpretation: conservative upper bound for compliance screening
+[INFO] conservative quantile model saved to headset_em_surrogate_conservative.pkl
+[INFO] quantile CV predictions saved to surrogate_cv_quantile.csv
+[INFO] quantile diagnostic plot saved to surrogate_quantile_diagnostic.png
+
+============================================================
+  BEST QUANTITATIVE MODEL : Stacked (PowerLaw + physics -> RF)
+  R²                      : 0.5477
+  RMSE                    : 0.4654 W/m²
+  Mean RelErr             : 29.6%
+============================================================
+
+[INFO] training final RF on all data for feature importances...
+
+[INFO] Feature importances (physics-informed set):
+  inv_gap                     : 0.0901  ####
+  log_gap                     : 0.0848  ####
+  source_vs_pyramid           : 0.0831  ####
+  gap                         : 0.0815  ####
+  lateral_path                : 0.0771  ###
+  gap_sq                      : 0.0766  ###
+  inv_lateral                 : 0.0732  ###
+  log_regime                  : 0.0575  ##
+  pyramid_control             : 0.0502  ##
+  regime_ratio                : 0.0459  ##
+  lower_protective_layer      : 0.0410  ##
+  source_coupling             : 0.0406  ##
+  diel_x_gap                  : 0.0228  #
+  total_layer                 : 0.0193  
+  inv_total_layer             : 0.0191  
+  log_total_layer             : 0.0186  
+  shield_pyramid              : 0.0169  
+  bifurc_proximity            : 0.0157  
+  diel_x_layer                : 0.0152  
+  protective_layer_dielectric : 0.0147  
+  upper_protective_layer      : 0.0146  
+  shield_lateral              : 0.0146  
+  shield_total                : 0.0135  
+  diel_from_bifurc            : 0.0134  
+
+  Combined regime feature importance: 0.3834 (38.3% of total)
+
+[SAFETY ANALYSIS]
+  Cases with actual >= 2.0 W/m²  : 25
+  Underpredicted                   : 23 (92%)
+  Mean underprediction             : 0.814 W/m²
+  Correction factor                : 1.545x
+  Safety flag threshold            : 1.5 W/m²
+
+  [NOTE] Predictions >= 1.5 W/m² require HFSS verification.
+
+[INFO] retraining Stacked (PowerLaw + physics -> RF) on all data...
+[INFO] model saved to headset_em_surrogate.pkl
+[INFO] conservative model saved to headset_em_surrogate_conservative.pkl
+[INFO] CV predictions saved to surrogate_cv_predictions.csv
+[INFO] plot saved to surrogate_diagnostics_final.png
+
+[INFO] Design variable ranges (for Methods section):
+  gap: [0.0882, 11.9118]
+  upper_protective_layer: [0.0441, 5.9559]
+  lower_protective_layer: [0.0441, 5.9559]
+  protective_layer_dielectric: [0.0213, 0.1987]
+
+[INFO] Output range : [0.3190, 3.9706] W/m²
+[INFO] ICNIRP 2020 limit (>6 GHz): 20 W/m²
+[INFO] Design target: 10 W/m²  (safety factor 2x)
+[INFO] 5G module Y  : 46.53 mm (confirmed HFSS geometry)
+
+[TIMING] Total wall time: 29.0s

@@ -1,0 +1,92 @@
+PS C:\Users\Radu\Desktop\ISPcC\1. EM\v4> python em_doe_retrospective.py --dataset last_run_designs.csv
+[INFO] loading EM dataset...
+[INFO] 200 HFSS design points
+[INFO] y range=[0.319, 3.971] W/m²
+[INFO] encode_surrogate best (5-fold CV, full 200): R²=0.5514
+
+[INFO] Feature spaces for MaxiMin distance metric:
+  RAW-4    : 4D  [gap, upper, lower, tan_δ]
+  CANON-5  : 19  (Π2, Π13, Π6, Π9, upper_frac — encoded)
+
+[INFO] Fixed test set  : 40 points (seed=999)
+[INFO] Training pool   : 160 points
+[INFO] Literature min  : 10×d = 40 pts (raw 4D)
+[INFO] Model           : RF (n_estimators=500) — encode_surrogate best
+
+[INFO] computing distance matrices...
+[TIMING] raw (160, 160) + canon (160, 160): 0.00s
+
+[INFO] sweep n∈[10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200], 10 seeds
+
+  seed 1/10 done
+  seed 2/10 done
+  seed 3/10 done
+  seed 4/10 done
+  seed 5/10 done
+  seed 6/10 done
+  seed 7/10 done
+  seed 8/10 done
+  seed 9/10 done
+  seed 10/10 done
+
+============================================================================================================
+  EM DOE RETROSPECTIVE — 200 HFSS points  |  RF (n=500)  |  fixed 40-pt test  |  10 seeds
+  encode_surrogate reference (5-fold CV on all 200): R²=0.5514 (previous best)
+============================================================================================================
+      n    RAW rand (A)    Raw MM-4D (B)    Canon MM (C)    MM+2stg (D)  best  MM4D gain vs rand
+  ─────  ──────────────  ───────────────  ──────────────  ─────────────  ─────  ────────────────────
+     10  0.2179±0.124   0.2393±0.074  0.3095±0.108  0.4651±0.153    D    Δ=+0.0214
+     20  0.3165±0.143   0.3597±0.109  0.3876±0.049  0.5681±0.078    D    Δ=+0.0432
+     30  0.3992±0.117   0.4452±0.087  0.4944±0.060  0.5707±0.098    D    Δ=+0.0460
+     40  0.4745±0.059   0.4623±0.079  0.5658±0.040  0.5799±0.076    D    Δ=-0.0121  ← 10×d literature min
+     50  0.4477±0.051   0.5059±0.059  0.5736±0.033  0.6170±0.048    D    Δ=+0.0581
+     60  0.5079±0.069   0.5426±0.037  0.5614±0.026  0.6346±0.034    D    Δ=+0.0347
+     70  0.5127±0.048   0.5627±0.040  0.5364±0.025  0.6541±0.028    D    Δ=+0.0500
+     80  0.5638±0.034   0.5564±0.036  0.5516±0.026  0.6279±0.029    D    Δ=-0.0074
+     90  0.5137±0.034   0.5677±0.045  0.5488±0.027  0.6268±0.035    D    Δ=+0.0541
+    100  0.5183±0.034   0.5609±0.042  0.5755±0.023  0.6196±0.034    D    Δ=+0.0427
+    110  0.5594±0.024   0.5517±0.039  0.5874±0.013  0.6105±0.033    D    Δ=-0.0078
+    120  0.5451±0.050   0.5426±0.031  0.5850±0.016  0.5840±0.031    C    Δ=-0.0025
+    130  0.5622±0.037   0.5432±0.025  0.5788±0.019  0.5895±0.022    D    Δ=-0.0190
+    140  0.5510±0.046   0.5588±0.016  0.5858±0.013  0.6105±0.015    D    Δ=+0.0078
+    150  0.5493±0.027   0.5658±0.008  0.5711±0.010  0.5972±0.007    D    Δ=+0.0165
+    160  0.5613±0.007   0.5649±0.008  0.5596±0.008  0.6000±0.007    D    Δ=+0.0036
+============================================================================================================
+  Raw MaxiMin-4D vs random  : wins at 11/16 N values
+  Canon MaxiMin vs random   : wins at 14/16 N values
+
+────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  CROSSOVER — Raw MaxiMin-N equivalent to random at which N?
+  Claim: MaxiMin selects better design points → fewer runs needed
+────────────────────────────────────────────────────────────────────────────────────────────────────────────
+   MaxiMin N     MM R²    Rand R²   rand equiv  efficiency  DoE note
+  ──────────  ────────  ─────────  ───────────  ──────────  ─────────────────────────
+          10    0.2393     0.2179           20     2.0× fewer  
+          20    0.3597     0.3165           30     1.5× fewer  
+          30    0.4452     0.3992           40     1.3× fewer  
+          40    0.4623     0.4745           40     1.0× fewer  ← 10×d literature min
+          50    0.5059     0.4477           60     1.2× fewer  
+          60    0.5426     0.5079           80     1.3× fewer  
+          70    0.5627     0.5127           80     1.1× fewer  
+          80    0.5564     0.5638           80     1.0× fewer  
+          90    0.5677     0.5137        > max    > max fewer  
+         100    0.5609     0.5183           80     0.8× fewer  
+         110    0.5517     0.5594           80     0.7× fewer  
+         120    0.5426     0.5451           80     0.7× fewer  
+         130    0.5432     0.5622           80     0.6× fewer  
+         140    0.5588     0.5510           80     0.6× fewer  
+         150    0.5658     0.5493        > max    > max fewer  
+         160    0.5649     0.5613        > max    > max fewer  
+
+────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  SAFETY BIAS CHECK — does MaxiMin cover high-SAR points?
+  High-SAR (≥2 W/m²) in pool: 22/160 = 14%
+      n    high-SAR in MM  bias vs pool
+     10          17% (pool=14%)  balanced ✓
+     20          15% (pool=14%)  balanced ✓
+     30          14% (pool=14%)  balanced ✓
+     40          14% (pool=14%)  balanced ✓
+     50          13% (pool=14%)  balanced ✓
+     60          14% (pool=14%)  balanced ✓
+
+[TIMING] Total: 363.2s

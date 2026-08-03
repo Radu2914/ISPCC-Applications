@@ -1,0 +1,122 @@
+PS C:\Users\Radu\Desktop\ISPcC\3. Harmonics\v2> python harmonics_consonance_probe.py
+[INFO] generating harmonic pairs 1..64...
+[INFO] pool : 2080 unique pairs  (harmonics 64×65/2)
+[INFO] Euler GS — min=1  max=119  mean=27.38
+
+[INFO] Consonance threshold  : GS = 10
+[INFO] Consonant (GS≤10) :   477 / 2080  (analogous to stable λ<0)
+[INFO] Dissonant (GS>10)  :  1603 / 2080  (analogous to chaotic λ≥0)
+
+  Interval       Ratio  GS   Regime
+  Unison       1/1       1     consonant  (GS ≤ 10)
+  Octave       2/1       2     consonant  (GS ≤ 10)
+  P5           3/2       4     consonant  (GS ≤ 10)
+  P4           4/3       5     consonant  (GS ≤ 10)
+  M3           5/4       7     consonant  (GS ≤ 10)
+  m3           6/5       8     consonant  (GS ≤ 10)
+  M6           5/3       7     consonant  (GS ≤ 10)
+  M2           9/8       8     consonant  (GS ≤ 10)
+  m2           16/15      11    dissonant  (GS > 10)
+  Tritone      45/32      14    dissonant  (GS > 10)
+
+[INFO] Structural normalization scales (music-theoretic):
+  ── Pi-encoded (cascading / dissonance-growing) ──────────────────
+  log_n_low/high  ÷ log2(16) = 4.0  (16th harmonic limit)
+  tenney_h        ÷ log2(256)= 8.0  (Tenney height at 16-limit)
+  log_p_plus_q    ÷ log2(16) = 4.0  (sum complexity boundary)
+  log_diff        ÷ log2(16) = 4.0  (harmonic distance boundary)
+  log_euler_dist  ÷ log2(16) = 4.0  (Euler complexity boundary)
+  ── E-encoded (self-regulating / consonance-bounded) ─────────────
+  log_ratio       ÷ log2(2)  = 1.0  (octave = fundamental period)
+  log_p_num/q_den ÷ log2(8)  = 3.0  (5-limit JI boundary)
+  log_gcd         ÷ log2(16) = 4.0  (gcd convergence boundary)
+  p_frac          ÷ 1.0      = 1.0  (naturally ∈ (0, 0.5])
+
+[INFO] Feature sets:
+  Raw (baseline)   : 11  ['log_n_low', 'log_n_high', 'log_ratio', 'log_p_num', 'log_q_den', 'log_gcd', 'tenney_h', 'log_p_plus_q', 'log_diff', 'log_euler_dist', 'p_frac']
+  Encoded total    : 48
+    Pi-encoded     : 30  (6 vars × 5 Fourier terms)
+    E-encoded      : 15  (5 vars × 3 exp terms)
+    Cross-products : 3  (pi × e interactions)
+
+[INFO] sweep n∈[11, 22, 33, 50, 100, 150, 200, 300, 500], 10 seeds, 5-fold CV
+
+  seed 1/10 done
+  seed 2/10 done
+  seed 3/10 done
+  seed 4/10 done
+  seed 5/10 done
+  seed 6/10 done
+  seed 7/10 done
+  seed 8/10 done
+  seed 9/10 done
+  seed 10/10 done
+
+==============================================================================
+  HARMONICS PROBE — 11 RAW vs Pi+E ENCODED  (10 seeds, 5-fold CV, target=Euler GS)
+  pool=2080 pairs, MAX_HARMONIC=64, GS_THRESHOLD=10
+==============================================================================
+      n        RF raw       XGB raw        RF enc       XGB enc  XGB enc > XGB raw?
+  -----  ------------  ------------  ------------  ------------  ------------------
+     11  -45.2591±95.681  -39.8372±65.292  -57.1264±107.394  -80.1735±142.860  NO   (Δ=-40.3364)
+     22  -2.1891±3.218  -2.5647±2.673  -2.3838±2.870  -2.9692±3.337  NO   (Δ=-0.4045)
+     33  0.2424±0.394  0.0383±0.691  0.0737±0.579  -0.1534±0.947  NO   (Δ=-0.1917)
+     50  0.2582±0.228  0.1581±0.245  0.2313±0.235  0.1111±0.277  NO   (Δ=-0.0471)
+    100  0.5378±0.079  0.5219±0.088  0.5424±0.077  0.5291±0.081  YES  (Δ=+0.0071)
+    150  0.5986±0.047  0.6500±0.064  0.6004±0.048  0.6275±0.067  NO   (Δ=-0.0225)
+    200  0.5328±0.037  0.6228±0.048  0.5469±0.047  0.6030±0.074  NO   (Δ=-0.0198)
+    300  0.6090±0.051  0.7238±0.037  0.6265±0.046  0.7204±0.037  NO   (Δ=-0.0034)
+    500  0.6629±0.026  0.8010±0.017  0.6900±0.027  0.8031±0.016  YES  (Δ=+0.0021)
+==============================================================================
+  XGB encoded beats XGB raw at 2/9 sample sizes
+==============================================================================
+
+[INFO] feature importance (full encoded set, all data)...
+[TIMING] importance fit: 1.0s
+
+  Top 15 features (full dataset):
+  eenc_log_q_den_gauss                      : 0.0928  #######
+  eenc_log_q_den_pow_e                      : 0.0910  #######
+  eenc_log_q_den_exp_neg                    : 0.0896  #######
+  pienc_log_euler_dist_sin_pi               : 0.0524  ####
+  pienc_tenney_h_sin_pi                     : 0.0514  ####
+  cross_tenney_ratio                        : 0.0475  ###
+  pienc_log_p_plus_q_sin_pi                 : 0.0431  ###
+  pienc_log_n_high_sin_pi2                  : 0.0403  ###
+  eenc_log_p_num_pow_e                      : 0.0339  ##
+  eenc_log_p_num_exp_neg                    : 0.0315  ##
+  eenc_log_p_num_gauss                      : 0.0286  ##
+  pienc_log_n_high_sin_pi                   : 0.0270  ##
+  pienc_log_p_plus_q_cos_pi                 : 0.0266  ##
+  pienc_log_n_high_cascade                  : 0.0262  ##
+  pienc_log_n_high_cos_pi                   : 0.0256  ##
+
+  Category importances (full dataset):
+  Pi-encoded (Fourier)    : 0.5175  (51.7%)
+  E-encoded (exponential) : 0.4233  (42.3%)
+  Cross-products          : 0.0592  (5.9%)
+
+[INFO] regime-split feature importance (core verification)...
+  Consonant (GS≤10) → E-encoding should dominate  [mirrors: stable → E in logistic map]
+  Dissonant (GS>10)  → Pi-encoding should dominate  [mirrors: chaotic → Pi in logistic map]
+
+  Consonant regime (GS≤10, n=477):
+    Pi-encoded importance  : 0.6303  (63.0%)
+    E-encoded importance   : 0.3320  (33.2%)
+    Cross importance       : 0.0376  (3.8%)
+    Dominant encoding      : Pi (incorrect)
+
+  Dissonant regime (GS>10, n=1603):
+    Pi-encoded importance  : 0.6578  (65.8%)
+    E-encoded importance   : 0.3202  (32.0%)
+    Cross importance       : 0.0220  (2.2%)
+    Dominant encoding      : Pi (correct)
+
+=================================================================
+  VERIFICATION: PARTIAL
+  Pi-encoding correctly dominates dissonant regime
+  E-encoding does NOT dominate consonant regime
+  E weights may need revision or GS_THRESHOLD adjustment
+=================================================================
+
+[TIMING] Total wall time: 862.4s

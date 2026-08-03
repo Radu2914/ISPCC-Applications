@@ -1,0 +1,86 @@
+PS C:\Users\Radu\Desktop\ISPcC\3. Harmonics\v3> & C:/Users/Radu/AppData/Local/Programs/Python/Python311/python.exe "c:/Users/Radu/Desktop/ISPcC/3. Harmonics/v3/harmonics_exp3_intentional.py"
+[INFO] building dataset...
+[INFO] pool: 2080 pairs  GS mean=27.38  max=119
+
+[INFO] Feature sets in use:
+  RAW-11  : 11  (reference baseline from Exp1)
+  CANON-6 : 6   (Exp2 winner: log_q e×3 + log_p e×3)
+  CANON-6 columns: ['can_q_exp_neg', 'can_q_pow_e', 'can_q_gauss', 'can_p_exp_neg', 'can_p_pow_e', 'can_p_gauss']
+
+[INFO] Fixed test set : 500 points (seed=999)
+[INFO] Training pool  : 1580 points (2080 - 500)
+[INFO] Protocol: train on N → predict on fixed 500 held-out points
+[INFO] Exp2 used 5-fold CV; Exp3 uses fixed test → numbers differ, ratios matter
+
+[INFO] computing CANON-6 pairwise distances (1580×1580)...
+[TIMING] distance matrix: 0.02s
+
+[INFO] sweep n∈[11, 22, 33, 50, 66, 100, 150, 200, 300, 500], 10 seeds, fixed test set
+
+  seed 1/10 done
+  seed 2/10 done
+  seed 3/10 done
+  seed 4/10 done
+  seed 5/10 done
+  seed 6/10 done
+  seed 7/10 done
+  seed 8/10 done
+  seed 9/10 done
+  seed 10/10 done
+
+======================================================================================================
+  EXPERIMENT 3 — IntentionalMaxiMin + Two-Stage Residual
+  train on N → test on fixed 500-point set  |  10 seeds  |  pool=1580
+======================================================================================================
+      n     RAW-11 rand         C6 rand      C6 MaxiMin      MM+2-stage  best  MM gain vs C6rand
+  ─────  ──────────────  ──────────────  ──────────────  ──────────────  ──────  ────────────────────
+     11  0.2274±0.165  0.3714±0.094  0.2446±0.167  0.2321±0.194    B     Δ=-0.1269
+     22  0.4302±0.064  0.3041±0.157  0.3835±0.086  0.4125±0.107    A     Δ=+0.0793
+     33  0.4130±0.079  0.3914±0.107  0.4884±0.080  0.5105±0.089    D     Δ=+0.0970
+     50  0.4587±0.122  0.5341±0.093  0.5695±0.084  0.6032±0.079    D     Δ=+0.0354
+     66  0.5217±0.045  0.5862±0.049  0.6182±0.055  0.6601±0.055    D     Δ=+0.0320
+    100  0.5923±0.070  0.6459±0.064  0.7227±0.034  0.7501±0.026    D     Δ=+0.0768
+    150  0.6743±0.038  0.7617±0.029  0.7764±0.020  0.7970±0.023    D     Δ=+0.0147
+    200  0.7132±0.022  0.7964±0.029  0.8032±0.016  0.8197±0.025    D     Δ=+0.0068
+    300  0.7489±0.024  0.8167±0.025  0.8508±0.018  0.8621±0.022    D     Δ=+0.0341
+    500  0.8228±0.012  0.8693±0.013  0.8860±0.010  0.8970±0.009    D     Δ=+0.0168
+======================================================================================================
+  MaxiMin vs C6 random : wins at 9/10 N values
+  MM+2stage vs C6 rand : wins at 9/10 N values
+======================================================================================================
+
+──────────────────────────────────────────────────────────────────────────────────────────────────────
+  CROSSOVER TABLE — MaxiMin-N equivalent to random at which N?
+  (within Exp3 protocol; Exp2 references shown for context)
+──────────────────────────────────────────────────────────────────────────────────────────────────────
+   MaxiMin N     MM R²   C6rand R²   rand equiv  efficiency  Exp2-C6 ref
+  ──────────  ────────  ──────────  ───────────  ──────────  ───────────
+          11    0.2446      0.3714           11    1.0× fewer  -25.5100
+          22    0.3835      0.3041           33    1.5× fewer   -2.8800
+          33    0.4884      0.3914           50    1.5× fewer    0.0110
+          50    0.5695      0.5341           66    1.3× fewer    0.2030
+          66    0.6182      0.5862          100    1.5× fewer       nan
+         100    0.7227      0.6459          150    1.5× fewer    0.6010
+         150    0.7764      0.7617          200    1.3× fewer    0.7130
+         200    0.8032      0.7964          300    1.5× fewer    0.7010
+         300    0.8508      0.8167          500    1.7× fewer    0.7940
+         500    0.8860      0.8693        > max       ∞ fewer    0.8490
+
+──────────────────────────────────────────────────────────────────────────────────────────────────────
+  TWO-STAGE RESIDUAL ANALYSIS
+  Does the grammar-then-dialect structure add over MaxiMin alone?
+──────────────────────────────────────────────────────────────────────────────────────────────────────
+      n    MM XGB (C)   MM+2stg (D)   2stg gain  interpretation
+  ─────  ────────────  ────────────  ──────────  ───────────────────────────────────
+     11        0.2446        0.2321     -0.0125  XGB alone sufficient at this N
+     22        0.3835        0.4125     +0.0290  two-stage adds signal
+     33        0.4884        0.5105     +0.0221  two-stage adds signal
+     50        0.5695        0.6032     +0.0337  two-stage adds signal
+     66        0.6182        0.6601     +0.0420  two-stage adds signal
+    100        0.7227        0.7501     +0.0275  two-stage adds signal
+    150        0.7764        0.7970     +0.0207  two-stage adds signal
+    200        0.8032        0.8197     +0.0165  two-stage adds signal
+    300        0.8508        0.8621     +0.0113  two-stage adds signal
+    500        0.8860        0.8970     +0.0110  two-stage adds signal
+
+[TIMING] Total: 27.6s

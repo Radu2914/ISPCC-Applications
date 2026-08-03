@@ -1,0 +1,97 @@
+PS C:\Users\Radu\Desktop\ISPcC\3. Harmonics\v3> & C:/Users/Radu/AppData/Local/Pro
+[INFO] building dataset...
+[INFO] pool: 2080 pairs  GS mean=27.38  max=119
+
+[INFO] Feature sets:
+  RAW-11   : 11  — inherited log-scale statistics (Exp1 baseline)
+  MATCH-11 : 11  — probe-selected best encoding per raw var (Exp1 result)
+  CANON-6  :  6  — log_q (e×3) + log_p (e×3)
+  CANON-11 : 11  — CANON-6 + log(p·q) pi×5  [same count as baselines]
+  CANON-14 : 14  — CANON-11 + log_g e×3     [g = noise test for GS]
+
+[INFO] Canonical encoding rationale:
+  log_q → e-basis   dominant (9.2% probe imp); bounded denominator → consonance-l
+  log_p → e-basis   secondary (3.4%); same bounded character as q
+  log_pq→ pi-basis  tenney height grows with dissonance → cascading/unbounded
+  log_g → e-basis   GCD is irrelevant for GS; CANON-14≈CANON-11 confirms 2-var st
+
+[INFO] Hypotheses:
+  H1: CANON-11 ≥ MATCH-11   (direct p,q encoding beats inherited derived features
+  H2: CANON-14 ≈ CANON-11   (log_g is noise for GS)
+  H3: CANON-6  competitive  (q and p alone carry most GS signal)
+
+[INFO] sweep n∈[11, 22, 33, 50, 100, 150, 200, 300, 500], 10 seeds, 5-fold CV
+
+  seed 1/10 done
+  seed 2/10 done
+  seed 3/10 done
+  seed 4/10 done
+  seed 5/10 done
+  seed 6/10 done
+  seed 7/10 done
+  seed 8/10 done
+  seed 9/10 done
+  seed 10/10 done
+
+=========================================================================================================
+  EXPERIMENT 2 — CANONICAL vs INHERITED  (10 seeds, 5-fold CV, target=Euler GS, XGBoost)
+  RAW-11=baseline | MATCH-11=Exp1 probe | CANON-6/11/14=p,q,g direct encoding
+=========================================================================================================
+      n           XGB raw         XGB match            XGB c6           XGB c11           XGB c14  best
+  -----  ----------------  ----------------  ----------------  ----------------  ----------------
+     11  -39.8372±65.292  -57.2104±101.544  -25.5067±51.799  -25.6686±53.780  -24.6971±53.130  ← XGB c14
+     22  -2.5647±2.673  -3.0211±4.660  -2.8829±4.233  -2.6529±3.613  -2.6443±3.748  ← XGB raw
+     33  0.0383±0.691  0.0929±0.672  0.0113±0.638  0.0394±0.673  0.0286±0.681  ← XGB match
+     50  0.1581±0.245  0.1972±0.243  0.2034±0.346  0.1778±0.356  0.1660±0.387  ← XGB c6
+    100  0.5219±0.088  0.5828±0.074  0.6007±0.059  0.5649±0.076  0.5664±0.075  ← XGB c6
+    150  0.6500±0.064  0.6735±0.072  0.7129±0.074  0.6797±0.074  0.6826±0.070  ← XGB c6
+    200  0.6228±0.048  0.6583±0.061  0.7005±0.047  0.6610±0.053  0.6625±0.053  ← XGB c6
+    300  0.7238±0.037  0.7468±0.035  0.7944±0.027  0.7620±0.031  0.7621±0.032  ← XGB c6
+    500  0.8010±0.017  0.8165±0.016  0.8492±0.015  0.8302±0.016  0.8291±0.016  ← XGB c6
+=========================================================================================================
+
+=========================================================================================================
+  EXPERIMENT 2 — CANONICAL vs INHERITED  (Random Forest)
+=========================================================================================================
+      n           RF  raw         RF  match            RF  c6           RF  c11           RF  c14  best
+  -----  ----------------  ----------------  ----------------  ----------------  ----------------
+     11  -45.2591±95.681  -62.3819±117.143  -29.6049±51.834  -43.2352±75.472  -39.4511±68.671  ← RF  c6
+     22  -2.1891±3.218  -2.3074±3.524  -1.8547±2.868  -1.8756±2.755  -1.9245±2.772  ← RF  c6
+     33  0.2424±0.394  0.2581±0.380  0.2777±0.402  0.2694±0.417  0.2593±0.439  ← RF  c6
+     50  0.2582±0.228  0.3023±0.214  0.2769±0.263  0.2385±0.288  0.2479±0.272  ← RF  match
+    100  0.5378±0.079  0.5420±0.074  0.5861±0.063  0.5659±0.072  0.5639±0.075  ← RF  c6
+    150  0.5986±0.047  0.6082±0.051  0.6424±0.055  0.6224±0.054  0.6225±0.054  ← RF  c6
+    200  0.5328±0.037  0.5557±0.049  0.6128±0.037  0.5800±0.037  0.5746±0.036  ← RF  c6
+    300  0.6090±0.051  0.6258±0.042  0.6954±0.039  0.6612±0.043  0.6539±0.042  ← RF  c6
+    500  0.6629±0.026  0.6906±0.025  0.7627±0.018  0.7168±0.019  0.7036±0.019  ← RF  c6
+=========================================================================================================
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────
+  HYPOTHESIS EVALUATION
+─────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  H1 — CANON-11 vs MATCH-11 (same 11 features, different structure):
+       CANON-11 wins at 6/9 N values  avg Δ=+3.5397
+       → SUPPORTED: direct p/q encoding beats inherited derived features.
+         Harmonics is a 2-variable problem; the coordinate system confirms it.
+
+  H2 — CANON-14 vs CANON-11 (g noise test):
+       CANON-14 wins at 6/9 N values  avg Δ=+0.1069
+       → UNEXPECTED: log_g adds signal. Possible dataset correlation between
+         voicing (g) and the sampling distribution of p·q at MAX_HARMONIC=64.
+
+  H3 — CANON-6 vs RAW-11 (can 6 features from p,q beat 11 inherited?):
+       CANON-6 wins at 7/9 N values  avg Δ=+1.5965
+       → CONFIRMED: q and p alone, properly encoded, beat 11 inherited features.
+         This is the strong form of the claim: fewer, better-grounded features win.
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────
+  SUMMARY — Average Δ vs XGB raw across all N values:
+─────────────────────────────────────────────────────────────────────────────────────────────────────────
+  MATCH-11 (Exp1)               wins=7/9  avg Δ=-1.9531  low-N Δ=-4.4340  high-N Δ=+0.0247
+  CANON-6  (q+p only)           wins=7/9  avg Δ=+1.5965  low-N Δ=+3.5076  high-N Δ=+0.0655
+  CANON-11 (q+p+pq)             wins=8/9  avg Δ=+1.5866  low-N Δ=+3.5253  high-N Δ=+0.0352
+  CANON-14 (q+p+pq+g)           wins=7/9  avg Δ=+1.6936  low-N Δ=+3.7647  high-N Δ=+0.0354
+─────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+[TIMING] 1745.9s
