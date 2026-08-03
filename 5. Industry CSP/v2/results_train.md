@@ -1,0 +1,49 @@
+  python csp_v2_deploy.py --model csp_model_v2.pkl.python csp_v2_train.py --data "C:/Users/Radu/Desktop/ISPCC/_files/phm-ieee-2012-data-challenge-dataset-master/Full_Test_Set" --n_intentional 2400 --output csp_model_v2.pkl.
+
+[CSP v2 TRAINING]
+  Data : C:/Users/Radu/Desktop/ISPCC/_files/phm-ieee-2012-data-challenge-dataset-master/Full_Test_Set
+  IMM  : 2400  (min 6/bearing)
+  Loading Bearing1_3 ... 2375 snapshots  life=395.8 min (9.3s)
+  Loading Bearing1_4 ... 1428 snapshots  life=238.0 min (4.7s)
+  Loading Bearing1_5 ... 2463 snapshots  life=410.5 min (9.0s)
+  Loading Bearing1_6 ... 2448 snapshots  life=408.0 min (8.9s)
+  Loading Bearing1_7 ... 2259 snapshots  life=376.5 min (7.8s)
+  Loading Bearing2_3 ... 1955 snapshots  life=325.8 min (6.8s)
+  Loading Bearing2_4 ...  751 snapshots  life=125.2 min (3.0s)
+  Loading Bearing2_5 ... 2311 snapshots  life=385.2 min (8.5s)
+  Loading Bearing2_6 ...  701 snapshots  life=116.8 min (2.6s)
+  Loading Bearing2_7 ...  230 snapshots  life= 38.3 min (0.8s)
+  Loading Bearing3_3 ...  434 snapshots  life= 72.3 min (1.6s)
+[INFO] 11 bearings loaded
+[INFO] No condition filter — using all bearings
+
+[INFO] Training on all 11 bearings (N_intentional=2400, min_per=6)...
+
+[INFO] Stratified MaxiMin selection:
+      Bearing1_3: 326 snapshots selected (pool=2375)
+      Bearing1_4: 199 snapshots selected (pool=1428)
+      Bearing1_5: 338 snapshots selected (pool=2463)
+      Bearing1_6: 336 snapshots selected (pool=2448)
+      Bearing1_7: 310 snapshots selected (pool=2259)
+      Bearing2_3: 269 snapshots selected (pool=1955)
+      Bearing2_4: 106 snapshots selected (pool=751)
+      Bearing2_5: 316 snapshots selected (pool=2311)
+      Bearing2_6: 100 snapshots selected (pool=701)
+      Bearing2_7: 36 snapshots selected (pool=230)
+      Bearing3_3: 64 snapshots selected (pool=434)
+  Total selected: 2400 snapshots from 17,355 pool
+  Fit complete (1.5s)  [alpha=0.01, n_est=1000, leaf=1]
+  In-sample R² (rul_norm): 0.9976  [sanity check — not generalisation]
+
+[INFO] Operational thresholds (rul_norm space):
+  HEALTHY  : rul_norm ≥ 0.50  (≥50% life remaining — normal operation)
+  EARLY    : 0.25 ≤ rul_norm < 0.50  — monitor closely
+  CASCADE  : 0.08 ≤ rul_norm < 0.25  — schedule maintenance
+  CRITICAL : rul_norm < 0.08  (<8% life remaining — act immediately)
+
+[INFO] Model saved → csp_model_v2.pkl.  (213477 KB)
+  Bearings trained on : ['Bearing1_3', 'Bearing1_4', 'Bearing1_5', 'Bearing1_6', 'Bearing1_7', 'Bearing2_3', 'Bearing2_4', 'Bearing2_5', 'Bearing2_6', 'Bearing2_7', 'Bearing3_3']
+  Snapshots used      : 2400 / 17,355
+  In-sample R²        : 0.9976
+
+[TIMING] Total: 65.3s

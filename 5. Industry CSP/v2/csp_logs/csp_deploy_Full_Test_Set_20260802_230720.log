@@ -1,0 +1,12 @@
+========================================================================
+  CSP — Cascade State Predictor  v2.0
+  Command   : deploy
+  Timestamp : 2026-08-02 23:07:20
+  Platform  : Windows 10, Python 3.11.0
+------------------------------------------------------------------------
+  Parameters:
+    model           : C:\Users\Radu\Desktop\ISPCC\5. Industry CSP\v2
+    bearing         : C:\Users\Radu\Desktop\ISPCC\_files\phm-ieee-2012-data-challenge-dataset-master\Full_Test_Set
+    every           : 50
+========================================================================
+[CSP v2 DEPLOY]  Loading C:\Users\Radu\Desktop\ISPCC\5. Industry CSP\v2...
