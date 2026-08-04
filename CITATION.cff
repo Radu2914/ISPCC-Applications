@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+title: "ISPCC-3SIMM-Applications: Cascade State Predictor and Domain Applications"
+message: "If you use these applications, please cite both this repository and the ISPCC-3SIMM framework below."
+type: software
+authors:
+  - family-names: Vaduva
+    given-names: Radu-Andrei
+date-released: 2026-08-03
+license: MIT
+repository-code: "https://github.com/Radu2914/ISPCC-3SIMM-Applications"
+abstract: >
+  Application implementations of the ISPCC framework including the
+  Cascade State Predictor (CSP) for industrial bearing condition
+  monitoring, harmonic interval analysis, and electromagnetic
+  surrogate modeling. Each application derives variable classification
+  and normalising constants from domain physics independently before
+  encoding.
+references:
+  - type: software
+    title: "ISPCC-3SIMM: Intentional Symbolic Pre-Cognitive Computing Framework"
+    authors:
+      - family-names: Vaduva
+        given-names: Radu-Andrei
+    repository-code: "https://github.com/Radu2914/ISPCC-3SIMM"
+    license: MIT
