@@ -1,0 +1,26 @@
+# noai.txt
+# Opt-out notice for AI training and automated content scraping.
+# This file follows the emerging community convention for
+# machine-readable AI training opt-outs.
+#
+# Reference: https://noai.txt.fyi  /  https://spawning.ai/robots
+
+Noai: true
+Noimageai: true
+
+# ── What this means ─────────────────────────────────────────────────────────
+#
+# All content in this repository — including but not limited to source code,
+# documentation, comments, commit messages, issue text, and any other
+# human-authored material — is explicitly EXCLUDED from use in:
+#
+#   • Training, fine-tuning, or otherwise improving any AI or ML model
+#   • Building datasets or corpora intended for AI/ML purposes
+#   • Automated scraping, harvesting, or mirroring for any purpose
+#   • Machine translation or automated localisation pipelines
+#
+# ── Legal notice ─────────────────────────────────────────────────────────────
+#
+# Unauthorised automated access, scraping, or use of this content for
+# AI training constitutes a violation of the repository's licence and
+# applicable copyright law.  All rights reserved.
