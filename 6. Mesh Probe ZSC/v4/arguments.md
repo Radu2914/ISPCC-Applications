@@ -1,0 +1,5 @@
+--zones     probe_input.csv          face zone CSV (required)
+--nodes     mesh_file.txt            full node file (required)
+--stl       stl_mesh_file.stl        surface identification (required)
+--sv_factor 2.0                      St. Venant depth multiplier (default 2.0)
+--out       interior_probe.csv       output node classification CSV

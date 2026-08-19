@@ -1,0 +1,7 @@
+Usage:
+    python mesh_to_probe.py --nodes mesh_file.txt --stl stl_mesh_file.stl
+    python mesh_to_probe.py --nodes mesh_file.txt --stl stl_mesh_file.stl --out my_input.csv
+    python mesh_to_probe.py --nodes mesh_file.txt --stl stl_mesh_file.stl --bc_zones 1 3
+    python mesh_to_probe.py --nodes mesh_file.txt --stl stl_mesh_file.stl --load_nodes 18
+    python mesh_to_probe.py --nodes mesh_file.txt --stl stl_mesh_file.stl --normal_tol 10
+    python mesh_to_probe.py --nodes "D:\ISPCC\6. Mesh Probe ZSC\v2\_files\mesh_file.txt" --stl "D:\ISPCC\6. Mesh Probe ZSC\v2\_files\stl_mesh_file.stl" --load_nodes x --bc_nodes x --normal_tol x.y
