@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Three-Coordinate Physical Property Manifold of Chemical Elements — Phosphorus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:         #080D16;
+    --surface:    #0F1824;
+    --surface-2:  #162030;
+    --border:     #1C2E42;
+    --text:       #C4D4E0;
+    --text-dim:   #526A80;
+    --text-bright:#E8F0F8;
+    --pi:         #C45A3A;
+    --pi-dim:     #3A1810;
+    --e:          #3A8FA0;
+    --e-dim:      #0E2830;
+    --b:          #7A6EC0;
+    --b-dim:      #1E1A38;
+    --gold:       #A8863A;
+    --gold-dim:   #281E0A;
+    --radius:     4px;
+    --mono:       'JetBrains Mono', monospace;
+    --sans:       'Space Grotesk', system-ui, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 960px; margin: 0 auto; padding: 0 32px; }
+
+  section { padding: 80px 0; border-bottom: 1px solid var(--border); }
+  section:last-child { border-bottom: none; }
+
+  .label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-size: clamp(36px, 6vw, 72px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--text-bright);
+  }
+
+  h2 {
+    font-size: clamp(22px, 3vw, 32px);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--text-bright);
+    margin-bottom: 24px;
+  }
+
+  h3 {
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--text-bright);
+    margin-bottom: 10px;
+  }
+
+  p { color: var(--text); margin-bottom: 16px; max-width: 640px; }
+  p:last-child { margin-bottom: 0; }
+
+  /* ── HERO ── */
+  #hero {
+    padding: 120px 0 80px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #hero::before {
+    content: '';
+    position: absolute;
+    top: -120px; right: -120px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(58,143,160,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--e);
+    margin-bottom: 28px;
+  }
+
+  .hero-claim {
+    font-size: clamp(40px, 7vw, 80px);
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+    color: var(--text-bright);
+    margin-bottom: 12px;
+  }
+
+  .hero-claim em {
+    font-style: normal;
+    color: var(--gold);
+  }
+
+  .hero-sub {
+    font-size: clamp(16px, 2vw, 20px);
+    font-weight: 300;
+    color: var(--text-dim);
+    margin-top: 24px;
+    max-width: 560px;
+    line-height: 1.5;
+  }
+
+  .hero-meta {
+    display: flex;
+    gap: 40px;
+    margin-top: 56px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+  }
+
+  .hero-stat { display: flex; flex-direction: column; gap: 4px; }
+
+  .hero-stat-num {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--text-bright);
+  }
+
+  .hero-stat-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  .hero-stat-num span { color: var(--gold); }
+
+  /* ── MANIFOLD ARGUMENT ── */
+  .argument-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-top: 40px;
+  }
+
+  .argument-cell {
+    background: var(--surface);
+    padding: 28px 32px;
+    position: relative;
+  }
+
+  .argument-cell.before { border-right: 1px solid var(--border); }
+
+  .argument-cell .cell-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+  }
+
+  .argument-cell .cell-label.after { color: var(--e); }
+
+  .dim-list { list-style: none; }
+
+  .dim-list li {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text-dim);
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .dim-list li:last-child { border-bottom: none; }
+  .dim-list li .dim-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border); flex-shrink: 0; }
+  .dim-list li.active { color: var(--text); }
+  .dim-list li.active .dim-dot { background: var(--e); }
+
+  .arrow-connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+    padding: 0;
+    position: relative;
+  }
+
+  .argument-result {
+    margin-top: 2px;
+    background: var(--surface-2);
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .result-coords {
+    display: flex;
+    gap: 16px;
+    align-items: baseline;
+  }
+
+  .coord {
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 500;
+  }
+
+  .coord.pi { color: var(--pi); }
+  .coord.e  { color: var(--e); }
+  .coord.b  { color: var(--b); }
+
+  .result-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-left: auto;
+  }
+
+  /* ── THREE CARDS ── */
+  .three-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 40px;
+  }
+
+  .char-card {
+    background: var(--surface);
+    padding: 32px 28px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .char-card::before {
+    content: attr(data-letter);
+    position: absolute;
+    bottom: -20px;
+    right: -10px;
+    font-size: 140px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.05em;
+    opacity: 0.04;
+    pointer-events: none;
+    font-family: var(--sans);
+  }
+
+  .char-card.pi-card  { border-top: 2px solid var(--pi); }
+  .char-card.pi-card::before { color: var(--pi); }
+  .char-card.e-card   { border-top: 2px solid var(--e); }
+  .char-card.e-card::before  { color: var(--e); }
+  .char-card.b-card   { border-top: 2px solid var(--b); }
+  .char-card.b-card::before  { color: var(--b); }
+
+  .card-symbol {
+    font-family: var(--mono);
+    font-size: 28px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+
+  .pi-card  .card-symbol { color: var(--pi); }
+  .e-card   .card-symbol { color: var(--e); }
+  .b-card   .card-symbol { color: var(--b); }
+
+  .card-name {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 20px;
+  }
+
+  .card-body {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+
+  .card-examples {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 16px;
+  }
+
+  .tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 2px;
+    letter-spacing: 0.05em;
+  }
+
+  .pi-card .tag { background: var(--pi-dim); color: var(--pi); }
+  .e-card  .tag { background: var(--e-dim);  color: var(--e); }
+  .b-card  .tag { background: var(--b-dim);  color: var(--b); }
+
+  .card-nuclear {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+
+  .card-nuclear strong { color: var(--text); font-weight: 500; }
+
+  /* ── SCATTER ── */
+  #scatter-wrap {
+    margin-top: 40px;
+    background: var(--surface);
+    padding: 32px;
+    position: relative;
+  }
+
+  #scatter-canvas {
+    display: block;
+    width: 100%;
+    cursor: crosshair;
+  }
+
+  #scatter-tooltip {
+    position: absolute;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    padding: 10px 14px;
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1.7;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s;
+    z-index: 10;
+    min-width: 160px;
+  }
+
+  .scatter-legend {
+    display: flex;
+    gap: 24px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+  }
+
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .scatter-note {
+    margin-top: 12px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── ROLES TABLE ── */
+  .roles-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 32px;
+    font-size: 14px;
+  }
+
+  .roles-table th {
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    font-weight: 400;
+  }
+
+  .roles-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    color: var(--text);
+  }
+
+  .roles-table tr:last-child td { border-bottom: none; }
+  .roles-table tr:hover td { background: var(--surface-2); }
+
+  .roles-table td:first-child {
+    font-weight: 500;
+    color: var(--text-bright);
+    white-space: nowrap;
+  }
+
+  .score-cell { display: flex; gap: 6px; align-items: center; }
+
+  .score-bar {
+    height: 4px;
+    border-radius: 2px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .score-text {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    min-width: 28px;
+  }
+
+  .examples-cell {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  /* ── ENCODING ── */
+  .encoding-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 40px;
+  }
+
+  .encoding-card {
+    background: var(--surface);
+    padding: 28px;
+  }
+
+  .encoding-card .enc-label {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+
+  .encoding-card.pi-enc .enc-label { color: var(--pi); }
+  .encoding-card.e-enc  .enc-label { color: var(--e); }
+  .encoding-card.b-enc  .enc-label { color: var(--b); }
+
+  .formula {
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 2;
+    color: var(--text);
+    background: var(--bg);
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+
+  .formula .coef { color: var(--gold); }
+  .formula .fn   { color: var(--e); }
+  .formula .pi-c { color: var(--pi); }
+  .formula .b-c  { color: var(--b); }
+
+  .enc-note {
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.5;
+    max-width: none;
+    margin: 0;
+  }
+
+  /* ── COMPARISON ── */
+  .comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-top: 40px;
+  }
+
+  .comp-cell {
+    background: var(--surface);
+    padding: 32px;
+  }
+
+  .comp-cell.trad .comp-head { color: var(--text-dim); }
+  .comp-cell.new  .comp-head { color: var(--e); }
+
+  .comp-head {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .comp-item {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 16px;
+    align-items: flex-start;
+  }
+
+  .comp-item-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .trad .comp-item-icon { background: var(--border); color: var(--text-dim); }
+  .new  .comp-item-icon { background: var(--e-dim);  color: var(--e); }
+
+  .comp-item-text { font-size: 14px; color: var(--text); line-height: 1.5; }
+
+  .comp-timing {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .comp-time {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  .trad .comp-time { color: var(--text-dim); }
+  .new  .comp-time { color: var(--e); }
+
+  .comp-time-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 48px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  footer .foot-note {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+    line-height: 1.8;
+    max-width: none;
+    margin: 0;
+  }
+
+  footer .foot-note span { color: var(--text); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    .three-cards, .encoding-grid, .comparison-grid { grid-template-columns: 1fr; }
+    .argument-grid { grid-template-columns: 1fr; }
+    .hero-meta { gap: 24px; flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-eyebrow">TSA / ISPCC Framework · Phosphorus Material Classifier</div>
+    <h1 class="hero-claim">Physical property<br><em>3D manifold</em><br>of chemical elements.</h1>
+    <p class="hero-sub">Twelve measurable elemental properties reduce exactly to three physically motivated coordinates via TSA structural encoding. The reduction is not a statistical approximation — it is a consequence of dynamical character classification applied before any data is examined.</p>
+    <div class="hero-meta">
+      <div class="hero-stat">
+        <div class="hero-stat-num">12<span>→3</span></div>
+        <div class="hero-stat-label">Dimensions</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num"><span>~15×</span></div>
+        <div class="hero-stat-label">Faster search</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">118</div>
+        <div class="hero-stat-label">Elements covered</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">0</div>
+        <div class="hero-stat-label">Training data needed</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE ARGUMENT -->
+<section id="argument">
+  <div class="container">
+    <div class="label">Theoretical basis</div>
+    <h2>Extension of the periodic representation to a three-coordinate dynamical character space</h2>
+    <p>The periodic table constitutes a two-dimensional manifold: more than sixty measurable properties collapse onto period and group with recoverable physical meaning. Period and group encode position in the nuclear structure sequence. They do not encode dynamical character. Gadolinium and Lanthanum occupy the same period and adjacent groups. Their nuclear behaviour is structurally distinct.</p>
+    <p>The third coordinate is <strong>dynamical character</strong> — whether a property accumulates irreversibly (cascade), self-regulates toward equilibrium, or sits at a structural boundary. This dimension separates materials that the periodic table cannot separate, without requiring experimental data to establish it.</p>
+
+    <div class="argument-grid">
+      <div class="argument-cell before">
+        <div class="cell-label">12-dimensional property space</div>
+        <ul class="dim-list">
+          <li><span class="dim-dot"></span>Atomic mass</li>
+          <li><span class="dim-dot"></span>Electronegativity</li>
+          <li><span class="dim-dot"></span>Ionisation energy</li>
+          <li><span class="dim-dot"></span>Atomic radius</li>
+          <li><span class="dim-dot"></span>Melting point</li>
+          <li><span class="dim-dot"></span>Boiling point</li>
+          <li><span class="dim-dot"></span>Density</li>
+          <li><span class="dim-dot"></span>Electron affinity</li>
+          <li><span class="dim-dot"></span>Period</li>
+          <li><span class="dim-dot"></span>Group</li>
+          <li><span class="dim-dot"></span>N/Z stability ratio</li>
+        </ul>
+      </div>
+      <div class="argument-cell">
+        <div class="cell-label after">3-coordinate character manifold</div>
+        <ul class="dim-list">
+          <li class="active"><span class="dim-dot" style="background:var(--pi)"></span>Π — cascade character</li>
+          <li class="active"><span class="dim-dot" style="background:var(--e)"></span>Ε — equilibrium character</li>
+          <li class="active"><span class="dim-dot" style="background:var(--b)"></span>Β — boundary character</li>
+        </ul>
+        <p style="margin-top: 20px; font-size: 13px; color: var(--text-dim); max-width: none;">No information is discarded. The 12 properties are encoded into the three coordinates. The encoding is defined by physics, not by the dataset. The manifold exists in nature — the classifier reveals it.</p>
+      </div>
+    </div>
+    <div class="argument-result">
+      <div class="result-coords">
+        <span class="coord pi">Π</span>
+        <span class="coord e">Ε</span>
+        <span class="coord b">Β</span>
+      </div>
+      <div style="font-size:14px; color:var(--text-dim);">Every material becomes a single point in this space. Search, clustering, and classification all operate in 3D.</div>
+      <div class="result-label">→ k-d tree in 3D = O(log N)</div>
+    </div>
+  </div>
+</section>
+
+<!-- THREE COORDINATES -->
+<section id="coordinates">
+  <div class="container">
+    <div class="label">The three coordinates</div>
+    <h2>What each axis captures</h2>
+    <div class="three-cards">
+
+      <div class="char-card pi-card" data-letter="Π">
+        <div class="card-symbol">Π</div>
+        <div class="card-name">Cascade character</div>
+        <div class="card-body">Properties that are large in scale, non-periodic, and irreversible. A material with high Π sits far from the stable centre of the periodic table — its nuclear history is one of accumulation, not return.</div>
+        <div class="card-examples">
+          <span class="tag">Atomic mass</span>
+          <span class="tag">Neutron cross-section</span>
+          <span class="tag">Half-life (log scale)</span>
+        </div>
+        <div class="card-nuclear"><strong>Nuclear role:</strong> High-Π materials are strong neutron absorbers. Their interaction with radiation is dominated by capture — irreversible, directional. Examples: <strong>Gd, B, Cd, Hf</strong>.</div>
+      </div>
+
+      <div class="char-card e-card" data-letter="Ε">
+        <div class="card-symbol">Ε</div>
+        <div class="card-name">Equilibrium character</div>
+        <div class="card-body">Properties that are bounded, periodic, and self-regulating. Displaced from equilibrium, they return. This is the character of the periodic table's repeating structure — shell-filling, electronegativity trends, thermodynamic stability.</div>
+        <div class="card-examples">
+          <span class="tag">Electronegativity</span>
+          <span class="tag">Melting point</span>
+          <span class="tag">Period / Group</span>
+        </div>
+        <div class="card-nuclear"><strong>Nuclear role:</strong> High-Ε materials are moderators and structural materials. They slow neutrons through repeated elastic collisions and maintain mechanical integrity under irradiation. Examples: <strong>H, C, Zr, Al</strong>.</div>
+      </div>
+
+      <div class="char-card b-card" data-letter="Β">
+        <div class="card-symbol">Β</div>
+        <div class="card-name">Boundary character</div>
+        <div class="card-body">Properties at a structural transition — between metallic and non-metallic, between stable and unstable isotope configurations. The Β score peaks precisely at a separatrix: neither fully one regime nor another. The boundary is not a defect. It is the design target.</div>
+        <div class="card-examples">
+          <span class="tag">Electron affinity</span>
+          <span class="tag">N/Z stability ratio</span>
+        </div>
+        <div class="card-nuclear"><strong>Nuclear role:</strong> High-Β materials govern controlled boundaries — criticality management, burnable poisons, neutron flux interfaces. The controlled chain reaction is itself a Β condition. Examples: <strong>B (poison), Gd (burnable), U (at criticality)</strong>.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SCATTER VISUALISATION -->
+<section id="visualisation">
+  <div class="container">
+    <div class="label">Manifold visualisation</div>
+    <h2>Elemental distribution in (Π, Ε, Β) character space</h2>
+    <p>Each point is an element placed by its computed (Π, Ε) coordinates. Dot radius encodes the Β score — elements larger in radius occupy positions closer to a structural boundary in property space. Hover to inspect coordinates. Cluster proximity reflects structural similarity, not chemical similarity: Gd and U appear in proximity because their dynamical character is equivalent, not because they share chemical family or period.</p>
+
+    <div id="scatter-wrap">
+      <canvas id="scatter-canvas" height="420"></canvas>
+      <div id="scatter-tooltip"></div>
+      <div class="scatter-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#4A8FA8"></div>Moderator / Structural</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#C45A3A"></div>Absorber / Poison</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#8B7EC8"></div>Fuel / Heavy</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#A8863A"></div>Structural metal</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#526A80"></div>Noble / Gas</div>
+      </div>
+      <div class="scatter-note">Dot radius ∝ Β score. X axis = Π (cascade character). Y axis = Ε (equilibrium character). Source: PubChem Periodic Table CSV, 118 elements, auto-downloaded. Coordinates computed by Phosphorus TSA classifier.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ROLES TABLE -->
+<section id="roles">
+  <div class="container">
+    <div class="label">Nuclear functional classification</div>
+    <h2>Nuclear role mapping in (Π, Ε, Β) character space</h2>
+    <p>The table below maps nuclear functional roles to their expected positions in (Π, Ε, Β) space, derived from the known physics of each role. This constitutes a first-pass structural filter. Material qualification for a specific application depends additionally on geometry, temperature, neutron spectrum, and applicable regulatory code.</p>
+
+    <table class="roles-table">
+      <thead>
+        <tr>
+          <th>Role</th>
+          <th>Π</th>
+          <th>Ε</th>
+          <th>Β</th>
+          <th>Examples</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Neutron absorber</td>
+          <td><div class="score-cell"><div class="score-bar" style="width:48px;background:var(--pi)"></div><span class="score-text">High</span></div></td>
+          <td><div class="score-cell"><div class="score-bar" style="width:20px;background:var(--border)"></div><span class="score-text">Low</span></div></td>
+          <td><div class="score-cell"><div class="score-bar" style="width:28px;background:var(--b)"></div><span class="score-text">Mid</span></div></td>
+          <td class="examples-cell">Gd, B, Cd, Hf, In</td>
+          <td style="font-size:13px;color:var(--text-dim)">Large neutron capture cross-section. Irreversible interaction.</td>
+        </tr>
+        <tr>
+          <td>Neutron moderator</td>
+          <td><div class="score-cell"><div class="score-bar" style="width:12px;background:var(--border)"></div><span class="score-text">Low</span></div></td>
+          <td><div class="score-cell"><div class="score-bar" style="width:48px;background:var(--e)"></div><span class="score-text">High</span></div></td>
+          <td><div class="score-cell"><div class="score-bar" style="width:20px;background:var(--border)"></div><span class="score-text">Low</span></div></td>
+          <td class="examples-cell">H, D, C (graphite), Be</td>
+          <td style="font-size:13px;color:var(--text-dim)">Elastic scattering dominates. Energy transfer self-regulates toward thermal equilibrium.</td>
+        </tr>
+        <tr>
+          <td>Structural</td>
+          <td><div class="score-cell"><div class="score-bar" style="width:16px;background:var(--border)"></div><span class="score-text">Low</span></div></td>
+          <td><div class="score-cell"><div class="score-bar" style="width:40px;background:var(--e)"></div><span class="score-text">High</span></div></td>
+          <td><div class="score-cell"><div class="score-bar" style="width:24px;background:var(--b)"></div><span class="score-text">Mid</span></div></td>
+          <td class="examples-cell">Zr, Fe, Ni, Al, Mo</td>
+          <td style="font-size:13px;color:var(--text-dim)">Mechanical integrity under irradiation. Bounded, periodic properties.</td>
+        </tr>
+        <tr>
+          <td>Nuclear fuel</td>
+          <td><div class="score-cell"><div class="score-bar" style="width:48px;background:var(--pi)"></div><span class="score-text">High</span></div></td>
+          <td><div class="score-cell"><div class="score-bar" style="width:28px;background:var(--e)"></div><span class="score-text">Mid</span></div></td>
+          <td><div class="score-cell"><div class="score-bar" style="width:44px;background:var(--b)"></div><span class="score-text">High</span></div></td>
+          <td class="examples-cell">U, Pu, Th</td>
+          <td style="font-size:13px;color:var(--text-dim)">Fission threshold sits at a Β condition. High Β at operating point is by design.</td>
+        </tr>
+        <tr>
+          <td>Reflector</td>
+          <td><div class="score-cell"><div class="score-bar" style="width:12px;background:var(--border)"></div><span class="score-text">Low</span></div></td>
+          <td><div class="score-cell"><div class="score-bar" style="width:40px;background:var(--e)"></div><span class="score-text">High</span></div></td>
+          <td><div class="score-cell"><div class="score-bar" style="width:12px;background:var(--border)"></div><span class="score-text">Low</span></div></td>
+          <td class="examples-cell">Be, C, Pb</td>
+          <td style="font-size:13px;color:var(--text-dim)">Returns neutrons toward core. Equilibrium character governs scattering behaviour.</td>
+        </tr>
+        <tr>
+          <td>Burnable poison</td>
+          <td><div class="score-cell"><div class="score-bar" style="width:28px;background:var(--pi)"></div><span class="score-text">Mid</span></div></td>
+          <td><div class="score-cell"><div class="score-bar" style="width:28px;background:var(--e)"></div><span class="score-text">Mid</span></div></td>
+          <td><div class="score-cell"><div class="score-bar" style="width:44px;background:var(--b)"></div><span class="score-text">High</span></div></td>
+          <td class="examples-cell">Gd, B, Er</td>
+          <td style="font-size:13px;color:var(--text-dim)">Designed to sit at the boundary. Burns out as fuel depletes — Β condition managed over cycle life.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ENCODING -->
+<section id="encoding">
+  <div class="container">
+    <div class="label">Computational specification</div>
+    <h2>Encoding functions and normalisation constants</h2>
+    <p>Each property is normalised by a confirmed physical constant — not by the dataset mean or range — then passed through one of three fixed basis functions selected by the property's dynamical character. Basis functions and weights are fixed across all domains and all elements. No parameters are tuned to data.</p>
+
+    <div class="encoding-grid">
+      <div class="encoding-card pi-enc">
+        <div class="enc-label">φ_Π  ·  Cascade basis</div>
+        <div class="formula">
+<span class="coef">(5/11)</span>·<span class="fn">sin</span>(<span class="pi-c">π</span>x)<br>
++ <span class="coef">(1/11)</span>·<span class="fn">cos</span>(<span class="pi-c">π</span>x)<br>
++ <span class="coef">(1/11)</span>·<span class="fn">sin</span>(2<span class="pi-c">π</span>x)<br>
++ <span class="coef">(3/11)</span>·<span class="fn">sin</span>(<span class="pi-c">π²</span>x)<br>
++ <span class="coef">(1/11)</span>·<span class="fn">sin</span>(<span class="pi-c">π</span>x)·<span class="fn">cos</span>(<span class="pi-c">π²</span>x)
+        </div>
+        <p class="enc-note">sin(π²x) carries weight 3 because π² is irrational — the function never repeats at any integer period. It is the strongest non-returning basis function available. Weights (5,1,1,3,1) encode the cascade structure, not the data.</p>
+      </div>
+
+      <div class="encoding-card e-enc">
+        <div class="enc-label">φ_Ε  ·  Equilibrium basis</div>
+        <div class="formula">
+<span class="coef">(2/5)</span>·<span class="fn">exp</span>(−<span class="b-c">e</span>·x)<br>
+<br>
++ <span class="coef">(2/5)</span>·x<sup><span class="b-c">e</span></sup><br>
+<br>
++ <span class="coef">(1/5)</span>·<span class="fn">exp</span>(−<span class="b-c">e</span>·(x−0.5)²)
+        </div>
+        <p class="enc-note">All three terms use e = 2.718… as the governing constant. Near-uniform weights (2,2,1) are structurally correct for bounded properties — no single mode dominates, reflecting the self-regulating character of equilibrium.</p>
+      </div>
+
+      <div class="encoding-card b-enc">
+        <div class="enc-label">φ_Β  ·  Boundary basis</div>
+        <div class="formula">
+<br>
+<br>
+<span class="fn">exp</span>(−<span class="b-c">e</span>·(x − 0.5)²)<br>
+<br>
+<br>
+        </div>
+        <p class="enc-note">A Gaussian peaked at x = 0.5. Each boundary property is normalised so that its physical separatrix maps to x = 0.5. Score is maximum precisely at the boundary condition and decays toward zero at either extreme.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:24px; background:var(--surface); padding:24px 28px;">
+      <div class="label" style="margin-bottom:12px;">Normalisation — physical constants only</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px;">
+        <div style="font-family:var(--mono);font-size:12px;color:var(--text-dim);line-height:2;">
+          Atomic mass → <span style="color:var(--text)">÷ 56.0 u</span> <span style="color:var(--gold)">(iron peak)</span><br>
+          Ionisation energy → <span style="color:var(--text)">÷ 24.59 eV</span> <span style="color:var(--gold)">(He ceiling)</span><br>
+          Electronegativity → <span style="color:var(--text)">÷ 4.0</span> <span style="color:var(--gold)">(F maximum)</span><br>
+          Atomic radius → <span style="color:var(--text)">÷ 298 pm</span> <span style="color:var(--gold)">(Cs maximum)</span>
+        </div>
+        <div style="font-family:var(--mono);font-size:12px;color:var(--text-dim);line-height:2;">
+          Melting point → <span style="color:var(--text)">÷ 3695 K</span> <span style="color:var(--gold)">(W maximum)</span><br>
+          Density → <span style="color:var(--text)">÷ 22.59 g/cm³</span> <span style="color:var(--gold)">(Os maximum)</span><br>
+          Electron affinity → <span style="color:var(--text)">÷ ±3.617 eV</span> <span style="color:var(--gold)">(Cl, symmetric)</span><br>
+          Period → <span style="color:var(--text)">÷ 7</span> · Group → <span style="color:var(--text)">÷ 18</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON -->
+<section id="comparison">
+  <div class="container">
+    <div class="label">Search efficiency comparison</div>
+    <h2>Structural proximity search vs. traditional database query</h2>
+    <p>Conservative assumptions throughout. Traditional method benchmarked with Granta MI open, analyst familiar with the interface, and data complete — the optimistic floor, not the typical case.</p>
+
+    <div class="comparison-grid">
+      <div class="comp-cell trad">
+        <div class="comp-head">Traditional database query</div>
+        <div class="comp-item">
+          <div class="comp-item-icon">1</div>
+          <div class="comp-item-text">Locate the source element record in the database</div>
+        </div>
+        <div class="comp-item">
+          <div class="comp-item-icon">2</div>
+          <div class="comp-item-text">Identify 5 candidates to compare — requires domain knowledge before search begins</div>
+        </div>
+        <div class="comp-item">
+          <div class="comp-item-icon">3</div>
+          <div class="comp-item-text">Pull up comparison view across 12 properties</div>
+        </div>
+        <div class="comp-item">
+          <div class="comp-item-icon">4</div>
+          <div class="comp-item-text">Read and interpret 12 properties × 5 element pairs, decide which differences matter</div>
+        </div>
+        <div class="comp-timing">
+          <div class="comp-time">10–15</div>
+          <div class="comp-time-label">minutes<br>(optimistic floor)</div>
+        </div>
+      </div>
+
+      <div class="comp-cell new">
+        <div class="comp-head">TSA character classifier (Phosphorus)</div>
+        <div class="comp-item">
+          <div class="comp-item-icon">1</div>
+          <div class="comp-item-text">Type the query, press enter</div>
+        </div>
+        <div class="comp-item">
+          <div class="comp-item-icon">2</div>
+          <div class="comp-item-text">Read the ranked output — 5 nearest elements in TSA space with distances</div>
+        </div>
+        <div class="comp-timing">
+          <div class="comp-time">30–40</div>
+          <div class="comp-time-label">seconds</div>
+        </div>
+        <div style="margin-top:20px;padding:16px;background:var(--e-dim);font-size:13px;color:var(--text-dim);line-height:1.6;">
+          <strong style="color:var(--e);">What this produces:</strong> a ranked shortlist by structural proximity, not a full property comparison sheet. The engineer still pulls property sheets for the top candidates — but for 2 materials, not 12.
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:2px;background:var(--surface-2);padding:20px 28px;display:flex;align-items:center;gap:32px;flex-wrap:wrap;">
+      <div style="font-family:var(--mono);font-size:28px;font-weight:700;color:var(--e);letter-spacing:-0.03em;">~15×</div>
+      <div style="font-size:14px;color:var(--text-dim);max-width:580px;">faster at the conservative, optimistic end. Without Granta MI — using NIST WebBook, CRC, or papers — the traditional method is 30–45 minutes, placing the real-world ratio closer to 65×. The defensible public claim is 15×.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <p class="foot-note">
+      <span>Phosphorus Material Classifier</span> — TSA / ISPCC Framework.<br>
+      Data source: PubChem Periodic Table CSV · 118 elements · auto-downloaded at runtime.<br>
+      No training data · No model weights · No external API · Standard library Python only.<br>
+      The three-coordinate manifold is a physical property of chemical elements. The classifier computes it.
+    </p>
+  </div>
+</footer>
+
+<script>
+// ── ELEMENT DATA (from Phosphorus classifier output) ──────────────────────────
+const elements = [
+  { sym:"H",  name:"Hydrogen",    Z:1,   pi:0.180,  e:0.439, b:0.971, role:"moderator"  },
+  { sym:"He", name:"Helium",      Z:2,   pi:0.422,  e:0.487, b:0.747, role:"noble"      },
+  { sym:"B",  name:"Boron",       Z:5,   pi:0.660,  e:0.386, b:0.985, role:"absorber"   },
+  { sym:"C",  name:"Carbon",      Z:6,   pi:0.647,  e:0.411, b:0.714, role:"moderator"  },
+  { sym:"N",  name:"Nitrogen",    Z:7,   pi:0.596,  e:0.433, b:0.753, role:"moderator"  },
+  { sym:"O",  name:"Oxygen",      Z:8,   pi:0.520,  e:0.450, b:0.701, role:"moderator"  },
+  { sym:"F",  name:"Fluorine",    Z:9,   pi:0.385,  e:0.460, b:0.680, role:"noble"      },
+  { sym:"Ne", name:"Neon",        Z:10,  pi:0.335,  e:0.467, b:0.717, role:"noble"      },
+  { sym:"Al", name:"Aluminum",    Z:13,  pi:0.201,  e:0.379, b:0.856, role:"structural" },
+  { sym:"Si", name:"Silicon",     Z:14,  pi:0.210,  e:0.380, b:0.706, role:"structural" },
+  { sym:"Ca", name:"Calcium",     Z:20,  pi:0.451,  e:0.392, b:0.753, role:"structural" },
+  { sym:"Ti", name:"Titanium",    Z:22,  pi:0.253,  e:0.375, b:0.966, role:"structural" },
+  { sym:"Cr", name:"Chromium",    Z:24,  pi:0.024,  e:0.368, b:0.928, role:"structural" },
+  { sym:"Fe", name:"Iron",        Z:26,  pi:-0.200, e:0.365, b:0.910, role:"structural" },
+  { sym:"Ni", name:"Nickel",      Z:28,  pi:-0.340, e:0.366, b:0.799, role:"structural" },
+  { sym:"Cu", name:"Copper",      Z:29,  pi:-0.476, e:0.366, b:0.911, role:"structural" },
+  { sym:"Zr", name:"Zirconium",   Z:40,  pi:-0.468, e:0.384, b:0.942, role:"structural" },
+  { sym:"Mo", name:"Molybdenum",  Z:42,  pi:-0.617, e:0.387, b:0.930, role:"structural" },
+  { sym:"Ag", name:"Silver",      Z:47,  pi:-0.033, e:0.370, b:0.881, role:"structural" },
+  { sym:"Cd", name:"Cadmium",     Z:48,  pi:0.330,  e:0.380, b:0.954, role:"absorber"   },
+  { sym:"Sn", name:"Tin",         Z:50,  pi:0.537,  e:0.382, b:0.949, role:"structural" },
+  { sym:"Gd", name:"Gadolinium",  Z:64,  pi:0.199,  e:0.385, b:0.963, role:"absorber"   },
+  { sym:"W",  name:"Tungsten",    Z:74,  pi:-0.133, e:0.433, b:0.925, role:"structural" },
+  { sym:"Pb", name:"Lead",        Z:82,  pi:-0.681, e:0.387, b:0.925, role:"heavy"      },
+  { sym:"Bi", name:"Bismuth",     Z:83,  pi:-0.621, e:0.390, b:0.891, role:"heavy"      },
+  { sym:"U",  name:"Uranium",     Z:92,  pi:0.204,  e:0.410, b:0.920, role:"heavy"      },
+];
+
+const ROLE_COLORS = {
+  moderator:  "#4A8FA8",
+  absorber:   "#C45A3A",
+  heavy:      "#8B7EC8",
+  structural: "#A8863A",
+  noble:      "#526A80",
+};
+
+const canvas  = document.getElementById("scatter-canvas");
+const ctx     = canvas.getContext("2d");
+const tooltip = document.getElementById("scatter-tooltip");
+const wrap    = document.getElementById("scatter-wrap");
+
+const PAD = { top: 32, right: 32, bottom: 48, left: 56 };
+
+function setup() {
+  const W = canvas.offsetWidth;
+  const H = 420;
+  canvas.width  = W * devicePixelRatio;
+  canvas.height = H * devicePixelRatio;
+  canvas.style.height = H + "px";
+  ctx.scale(devicePixelRatio, devicePixelRatio);
+  return { W, H };
+}
+
+function mapX(pi, W) {
+  const lo = -0.75, hi = 0.75;
+  return PAD.left + ((pi - lo) / (hi - lo)) * (W - PAD.left - PAD.right);
+}
+
+function mapY(e, H) {
+  const lo = 0.32, hi = 0.52;
+  return PAD.top + ((hi - e) / (hi - lo)) * (H - PAD.top - PAD.bottom);
+}
+
+function mapR(b) { return 4 + b * 10; }
+
+function draw() {
+  const { W, H } = setup();
+  ctx.clearRect(0, 0, W, H);
+
+  const innerW = W - PAD.left - PAD.right;
+  const innerH = H - PAD.top  - PAD.bottom;
+
+  // grid
+  ctx.strokeStyle = "#1C2E42";
+  ctx.lineWidth   = 1;
+  ctx.setLineDash([4, 6]);
+
+  for (let i = 0; i <= 6; i++) {
+    const x = PAD.left + (i / 6) * innerW;
+    ctx.beginPath(); ctx.moveTo(x, PAD.top); ctx.lineTo(x, PAD.top + innerH); ctx.stroke();
+  }
+  for (let i = 0; i <= 4; i++) {
+    const y = PAD.top + (i / 4) * innerH;
+    ctx.beginPath(); ctx.moveTo(PAD.left, y); ctx.lineTo(PAD.left + innerW, y); ctx.stroke();
+  }
+  ctx.setLineDash([]);
+
+  // axis zero line (Π = 0)
+  const x0 = mapX(0, W);
+  ctx.strokeStyle = "#2A3E52";
+  ctx.lineWidth   = 1;
+  ctx.beginPath(); ctx.moveTo(x0, PAD.top); ctx.lineTo(x0, PAD.top + innerH); ctx.stroke();
+
+  // axis labels
+  ctx.fillStyle   = "#526A80";
+  ctx.font        = "11px 'JetBrains Mono', monospace";
+  ctx.textAlign   = "center";
+
+  const piTicks = [-0.6, -0.3, 0, 0.3, 0.6];
+  piTicks.forEach(v => {
+    const x = mapX(v, W);
+    ctx.fillText(v.toFixed(1), x, H - PAD.bottom + 18);
+  });
+
+  ctx.textAlign = "right";
+  const eTicks = [0.36, 0.40, 0.44, 0.48];
+  eTicks.forEach(v => {
+    const y = mapY(v, H);
+    ctx.fillText(v.toFixed(2), PAD.left - 8, y + 4);
+  });
+
+  // axis labels
+  ctx.fillStyle = "#4E6A80";
+  ctx.font      = "12px 'Space Grotesk', sans-serif";
+  ctx.textAlign = "center";
+  ctx.fillText("Π  →  cascade character", PAD.left + innerW / 2, H - 6);
+
+  ctx.save();
+  ctx.translate(14, PAD.top + innerH / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillText("Ε  →  equilibrium character", 0, 0);
+  ctx.restore();
+
+  // dots
+  elements.forEach(el => {
+    const x = mapX(el.pi, W);
+    const y = mapY(el.e, H);
+    const r = mapR(el.b);
+    const c = ROLE_COLORS[el.role];
+
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fillStyle   = c + "30";
+    ctx.fill();
+    ctx.strokeStyle = c;
+    ctx.lineWidth   = 1.5;
+    ctx.stroke();
+
+    // symbol label
+    ctx.fillStyle   = c;
+    ctx.font        = `500 11px 'Space Grotesk', sans-serif`;
+    ctx.textAlign   = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(el.sym, x, y);
+  });
+}
+
+draw();
+window.addEventListener("resize", draw);
+
+// hover
+canvas.addEventListener("mousemove", evt => {
+  const rect = canvas.getBoundingClientRect();
+  const mx   = evt.clientX - rect.left;
+  const my   = evt.clientY - rect.top;
+  const { W, H } = { W: canvas.offsetWidth, H: 420 };
+
+  let hit = null, minDist = 20;
+  elements.forEach(el => {
+    const x = mapX(el.pi, W);
+    const y = mapY(el.e, H);
+    const d = Math.hypot(mx - x, my - y);
+    if (d < minDist) { minDist = d; hit = el; }
+  });
+
+  if (hit) {
+    tooltip.innerHTML =
+      `<span style="color:${ROLE_COLORS[hit.role]};font-weight:500">${hit.sym} — ${hit.name}</span><br>` +
+      `<span style="color:#526A80">Z = ${hit.Z}</span><br>` +
+      `Π = <span style="color:#C45A3A">${hit.pi.toFixed(4)}</span><br>` +
+      `Ε = <span style="color:#3A8FA0">${hit.e.toFixed(4)}</span><br>` +
+      `Β = <span style="color:#7A6EC0">${hit.b.toFixed(4)}</span>`;
+    tooltip.style.opacity = "1";
+    const wx = evt.clientX - wrap.getBoundingClientRect().left + 14;
+    const wy = evt.clientY - wrap.getBoundingClientRect().top  - 10;
+    tooltip.style.left = wx + "px";
+    tooltip.style.top  = wy + "px";
+  } else {
+    tooltip.style.opacity = "0";
+  }
+});
+
+canvas.addEventListener("mouseleave", () => { tooltip.style.opacity = "0"; });
+</script>
+
+</body>
+</html>
