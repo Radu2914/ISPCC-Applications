@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Worked Example — Iron (Fe)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:       #080D16;
+    --surface:  #0F1824;
+    --surface2: #162030;
+    --border:   #1C2E42;
+    --text:     #C4D4E0;
+    --dim:      #526A80;
+    --bright:   #E8F0F8;
+    --pi:       #C45A3A;
+    --pi-bg:    #2A1008;
+    --e:        #3A8FA0;
+    --e-bg:     #081820;
+    --b:        #7A6EC0;
+    --b-bg:     #14103A;
+    --gold:     #A8863A;
+    --mono:     'JetBrains Mono', monospace;
+    --sans:     'Space Grotesk', system-ui, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    padding: 60px 0 80px;
+  }
+
+  .page { max-width: 820px; margin: 0 auto; padding: 0 32px; }
+
+  /* ── HEADER ── */
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-size: 42px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--bright);
+    line-height: 1.05;
+    margin-bottom: 8px;
+  }
+
+  h1 span { color: var(--gold); }
+
+  .subtitle {
+    font-size: 16px;
+    color: var(--dim);
+    font-weight: 300;
+    margin-bottom: 48px;
+    max-width: 540px;
+  }
+
+  /* ── STEP BLOCK ── */
+  .step {
+    margin-bottom: 4px;
+    border-left: 2px solid var(--border);
+    padding-left: 24px;
+    padding-top: 4px;
+    padding-bottom: 24px;
+  }
+
+  .step-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  .step-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--dim);
+    text-transform: uppercase;
+    min-width: 56px;
+  }
+
+  .step-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--bright);
+  }
+
+  /* ── PROPERTY TABLE ── */
+  .prop-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--mono);
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+
+  .prop-table th {
+    text-align: left;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--dim);
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    font-weight: 400;
+  }
+
+  .prop-table td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: middle;
+  }
+
+  .prop-table tr:last-child td { border-bottom: none; }
+
+  .type-badge {
+    display: inline-block;
+    padding: 2px 7px;
+    font-size: 11px;
+    border-radius: 2px;
+    font-weight: 500;
+  }
+
+  .badge-pi { background: var(--pi-bg); color: var(--pi); }
+  .badge-e  { background: var(--e-bg);  color: var(--e); }
+  .badge-b  { background: var(--b-bg);  color: var(--b); }
+
+  /* ── CALC BLOCK ── */
+  .calc-group { margin-bottom: 24px; }
+
+  .calc-group-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    margin-bottom: 2px;
+    display: inline-block;
+  }
+
+  .calc-group-label.pi { color: var(--pi); background: var(--pi-bg); }
+  .calc-group-label.e  { color: var(--e);  background: var(--e-bg);  }
+  .calc-group-label.b  { color: var(--b);  background: var(--b-bg);  }
+
+  .calc-row {
+    display: grid;
+    grid-template-columns: 160px 1fr 120px;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .calc-row:first-of-type { border-top: 1px solid var(--border); }
+
+  .calc-cell {
+    padding: 10px 14px;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    border-right: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+  }
+
+  .calc-cell:last-child { border-right: none; justify-content: flex-end; }
+
+  .calc-prop   { color: var(--dim); }
+  .calc-math   { color: var(--text); }
+  .calc-result { font-weight: 500; }
+  .calc-result.pi { color: var(--pi); }
+  .calc-result.e  { color: var(--e); }
+  .calc-result.b  { color: var(--b); }
+
+  .calc-math .op  { color: var(--dim); }
+  .calc-math .val { color: var(--bright); }
+  .calc-math .cnst{ color: var(--gold); }
+
+  /* ── ENCODING DETAIL ── */
+  .enc-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 20px 20px 16px;
+    margin-bottom: 4px;
+  }
+
+  .enc-block-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--dim);
+    margin-bottom: 12px;
+    letter-spacing: 0.08em;
+  }
+
+  .enc-line {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 2.1;
+    color: var(--text);
+  }
+
+  .enc-line .term { color: var(--dim); }
+  .enc-line .num  { color: var(--gold); }
+  .enc-line .fn   { color: var(--e); }
+  .enc-line .pi-c { color: var(--pi); }
+  .enc-line .b-c  { color: var(--b); }
+  .enc-line .res  { color: var(--bright); font-weight: 500; }
+  .enc-line .sum-line { border-top: 1px solid var(--border); margin-top: 4px; padding-top: 6px; }
+
+  /* ── AGGREGATION ── */
+  .agg-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 18px 20px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text);
+    line-height: 2;
+  }
+
+  .agg-block .agg-label { color: var(--dim); font-size: 11px; letter-spacing: 0.1em; }
+  .agg-block .agg-sum   { color: var(--text); }
+  .agg-block .agg-n     { color: var(--gold); }
+  .agg-block .agg-res   { font-size: 15px; font-weight: 500; }
+  .agg-block .agg-res.pi { color: var(--pi); }
+  .agg-block .agg-res.e  { color: var(--e); }
+  .agg-block .agg-res.b  { color: var(--b); }
+
+  /* ── RESULT ── */
+  .result-banner {
+    margin-top: 40px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 32px 36px;
+  }
+
+  .result-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-bottom: 20px;
+  }
+
+  .result-triple {
+    display: flex;
+    gap: 40px;
+    align-items: baseline;
+    margin-bottom: 24px;
+  }
+
+  .result-coord { display: flex; flex-direction: column; gap: 4px; }
+
+  .result-coord-sym {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .result-coord-sym.pi { color: var(--pi); }
+  .result-coord-sym.e  { color: var(--e); }
+  .result-coord-sym.b  { color: var(--b); }
+
+  .result-coord-val {
+    font-size: 40px;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .result-coord-val.pi { color: var(--pi); }
+  .result-coord-val.e  { color: var(--e); }
+  .result-coord-val.b  { color: var(--b); }
+
+  .result-interp {
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .interp-item { display: flex; flex-direction: column; gap: 4px; }
+
+  .interp-head {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .interp-head.pi { color: var(--pi); }
+  .interp-head.e  { color: var(--e); }
+  .interp-head.b  { color: var(--b); }
+
+  .interp-body { font-size: 13px; color: var(--dim); line-height: 1.5; }
+
+  /* ── NOTE ── */
+  .note {
+    margin-top: 32px;
+    padding: 16px 20px;
+    border-left: 2px solid var(--gold);
+    background: var(--surface);
+    font-size: 13px;
+    color: var(--dim);
+    line-height: 1.6;
+  }
+
+  .note strong { color: var(--text); font-weight: 500; }
+
+  hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+  @media (max-width: 640px) {
+    .calc-row { grid-template-columns: 130px 1fr 90px; }
+    .result-triple { gap: 24px; }
+    .result-coord-val { font-size: 28px; }
+    .result-interp { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="eyebrow">Phosphorus Material Classifier — Worked Example</div>
+  <h1>Iron <span>(Fe)</span></h1>
+  <p class="subtitle">A full manual computation of the TSA fingerprint (Π, Ε, Β) from raw element properties. Every arithmetic step shown.</p>
+
+  <hr>
+
+  <!-- STEP 1: INPUT -->
+  <div class="step">
+    <div class="step-head">
+      <span class="step-num">Step 1</span>
+      <span class="step-title">Raw properties from PubChem</span>
+    </div>
+    <table class="prop-table">
+      <thead>
+        <tr><th>Property</th><th>Value</th><th>Unit</th><th>TSA type</th><th>Normalisation constant</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Atomic mass</td><td>55.845</td><td>u</td><td><span class="type-badge badge-pi">Π</span></td><td>56.0 u — iron peak</td></tr>
+        <tr><td>Electronegativity</td><td>1.83</td><td>Pauling</td><td><span class="type-badge badge-e">Ε</span></td><td>4.0 — fluorine maximum</td></tr>
+        <tr><td>Ionisation energy</td><td>7.902</td><td>eV</td><td><span class="type-badge badge-e">Ε</span></td><td>24.59 eV — helium ceiling</td></tr>
+        <tr><td>Atomic radius</td><td>126</td><td>pm</td><td><span class="type-badge badge-e">Ε</span></td><td>298 pm — caesium maximum</td></tr>
+        <tr><td>Melting point</td><td>1811</td><td>K</td><td><span class="type-badge badge-e">Ε</span></td><td>3695 K — tungsten maximum</td></tr>
+        <tr><td>Boiling point</td><td>3134</td><td>K</td><td><span class="type-badge badge-e">Ε</span></td><td>5555 K — tungsten maximum</td></tr>
+        <tr><td>Density</td><td>7.874</td><td>g/cm³</td><td><span class="type-badge badge-e">Ε</span></td><td>22.59 g/cm³ — osmium maximum</td></tr>
+        <tr><td>Electron affinity</td><td>0.163</td><td>eV</td><td><span class="type-badge badge-b">Β</span></td><td>±3.617 eV — symmetric about 0</td></tr>
+        <tr><td>Period</td><td>4</td><td>—</td><td><span class="type-badge badge-e">Ε</span></td><td>7 — total periods</td></tr>
+        <tr><td>Group</td><td>8</td><td>—</td><td><span class="type-badge badge-e">Ε</span></td><td>18 — total groups</td></tr>
+        <tr><td>N/Z ratio (computed)</td><td>30/26 = 1.154</td><td>—</td><td><span class="type-badge badge-b">Β</span></td><td>stability line ≈ 1.038 at Z=26</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- STEP 2: NORMALISE -->
+  <div class="step">
+    <div class="step-head">
+      <span class="step-num">Step 2</span>
+      <span class="step-title">Normalise — divide by physical constant</span>
+    </div>
+
+    <div class="calc-group">
+      <div class="calc-group-label pi">Π — cascade properties</div>
+      <div class="calc-row">
+        <div class="calc-cell calc-prop">mass</div>
+        <div class="calc-cell calc-math"><span class="val">55.845</span> <span class="op">÷</span> <span class="cnst">56.0</span></div>
+        <div class="calc-cell calc-result pi">x̃ = 0.9972</div>
+      </div>
+    </div>
+
+    <div class="calc-group">
+      <div class="calc-group-label e">Ε — equilibrium properties</div>
+      <div class="calc-row">
+        <div class="calc-cell calc-prop">electronegativity</div>
+        <div class="calc-cell calc-math"><span class="val">1.83</span> <span class="op">÷</span> <span class="cnst">4.0</span></div>
+        <div class="calc-cell calc-result e">x̃ = 0.4575</div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-cell calc-prop">ionisation energy</div>
+        <div class="calc-cell calc-math"><span class="val">7.902</span> <span class="op">÷</span> <span class="cnst">24.59</span></div>
+        <div class="calc-cell calc-result e">x̃ = 0.3213</div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-cell calc-prop">atomic radius</div>
+        <div class="calc-cell calc-math"><span class="val">126</span> <span class="op">÷</span> <span class="cnst">298</span></div>
+        <div class="calc-cell calc-result e">x̃ = 0.4228</div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-cell calc-prop">melting point</div>
+        <div class="calc-cell calc-math"><span class="val">1811</span> <span class="op">÷</span> <span class="cnst">3695</span></div>
+        <div class="calc-cell calc-result e">x̃ = 0.4901</div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-cell calc-prop">boiling point</div>
+        <div class="calc-cell calc-math"><span class="val">3134</span> <span class="op">÷</span> <span class="cnst">5555</span></div>
+        <div class="calc-cell calc-result e">x̃ = 0.5642</div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-cell calc-prop">density</div>
+        <div class="calc-cell calc-math"><span class="val">7.874</span> <span class="op">÷</span> <span class="cnst">22.59</span></div>
+        <div class="calc-cell calc-result e">x̃ = 0.3485</div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-cell calc-prop">period</div>
+        <div class="calc-cell calc-math"><span class="val">4</span> <span class="op">÷</span> <span class="cnst">7</span></div>
+        <div class="calc-cell calc-result e">x̃ = 0.5714</div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-cell calc-prop">group</div>
+        <div class="calc-cell calc-math"><span class="val">8</span> <span class="op">÷</span> <span class="cnst">18</span></div>
+        <div class="calc-cell calc-result e">x̃ = 0.4444</div>
+      </div>
+    </div>
+
+    <div class="calc-group">
+      <div class="calc-group-label b">Β — boundary properties</div>
+      <div class="calc-row">
+        <div class="calc-cell calc-prop">electron affinity</div>
+        <div class="calc-cell calc-math">(<span class="val">0.163</span> <span class="op">+</span> <span class="cnst">3.617</span>) <span class="op">÷</span> (<span class="cnst">2 × 3.617</span>)</div>
+        <div class="calc-cell calc-result b">x̃ = 0.5226</div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-cell calc-prop">N/Z ratio</div>
+        <div class="calc-cell calc-math">|<span class="val">1.154</span> <span class="op">−</span> <span class="cnst">1.038</span>| <span class="op">÷</span> <span class="cnst">0.5</span> <span class="op">→</span> 1 − 0.231</div>
+        <div class="calc-cell calc-result b">x̃ = 0.7686</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3: ENCODE -->
+  <div class="step">
+    <div class="step-head">
+      <span class="step-num">Step 3</span>
+      <span class="step-title">Encode — apply the basis functions</span>
+    </div>
+
+    <!-- PI encoding -->
+    <div class="enc-block" style="border-color: var(--pi); margin-bottom:4px;">
+      <div class="enc-block-label">φ_Π(0.9972) — atomic mass at the iron peak</div>
+      <div class="enc-line">
+        <span class="term">(5/11) × sin(</span><span class="pi-c">π</span><span class="term"> × 0.9972) = 0.4545 × sin(3.1328) = 0.4545 × </span><span class="num">+0.00879</span><span class="term"> = </span><span class="res">+0.00400</span>
+      </div>
+      <div class="enc-line">
+        <span class="term">(1/11) × cos(</span><span class="pi-c">π</span><span class="term"> × 0.9972) = 0.0909 × cos(3.1328) = 0.0909 × </span><span class="num">−0.99996</span><span class="term"> = </span><span class="res">−0.09090</span>
+      </div>
+      <div class="enc-line">
+        <span class="term">(1/11) × sin(2</span><span class="pi-c">π</span><span class="term"> × 0.9972) = 0.0909 × sin(6.2656) = 0.0909 × </span><span class="num">−0.01759</span><span class="term"> = </span><span class="res">−0.00160</span>
+      </div>
+      <div class="enc-line">
+        <span class="term">(3/11) × sin(</span><span class="pi-c">π²</span><span class="term"> × 0.9972) = 0.2727 × sin(9.842)  = 0.2727 × </span><span class="num">−0.4052</span><span class="term">  = </span><span class="res">−0.11050</span>
+      </div>
+      <div class="enc-line">
+        <span class="term">(1/11) × sin(</span><span class="pi-c">π</span><span class="term"> × 0.9972) × cos(</span><span class="pi-c">π²</span><span class="term"> × 0.9972) = 0.0909 × 0.00879 × (−0.9145) = </span><span class="res">−0.00073</span>
+      </div>
+      <div class="enc-line sum-line">
+        <strong>φ_Π = 0.00400 − 0.09090 − 0.00160 − 0.11050 − 0.00073 = </strong><span class="res" style="color:var(--pi);font-size:15px;">−0.1997</span>
+      </div>
+    </div>
+    <div class="note" style="margin-top:4px;margin-bottom:24px;">
+      <strong>Why negative?</strong> Iron's mass normalised by 56 gives x̃ = 0.9972 — almost exactly 1. At x = 1, sin(πx) ≈ 0 (the cascade completes). The cos(πx) term contributes −1/11, and sin(π²x) at this point is negative and carries weight 3/11. Iron sits at the inflection point of the π-basis — neither ascending nor descending. The negative Π score is physically correct: iron is the nuclear binding energy maximum, past which nucleosynthesis cascades in the other direction.
+    </div>
+
+    <!-- E encoding — one full + summary for rest -->
+    <div class="enc-block" style="border-color: var(--e); margin-bottom:4px;">
+      <div class="enc-block-label">φ_E(x) for each Ε property — full expansion for electronegativity (x̃ = 0.4575), then summary</div>
+      <div class="enc-line">
+        <span class="term">(2/5) × exp(−</span><span class="b-c">e</span><span class="term"> × 0.4575) = 0.4 × exp(−1.2441) = 0.4 × 0.2883 = </span><span class="res">+0.1153</span>
+      </div>
+      <div class="enc-line">
+        <span class="term">(2/5) × 0.4575</span><span class="b-c">^e</span><span class="term"> = 0.4 × 0.4575^2.718 = 0.4 × 0.1191 = </span><span class="res">+0.0476</span>
+      </div>
+      <div class="enc-line">
+        <span class="term">(1/5) × exp(−</span><span class="b-c">e</span><span class="term"> × (0.4575 − 0.5)²) = 0.2 × exp(−0.00490) = 0.2 × 0.9951 = </span><span class="res">+0.1990</span>
+      </div>
+      <div class="enc-line sum-line">
+        <strong>φ_E(0.4575) = 0.1153 + 0.0476 + 0.1990 = </strong><span class="res" style="color:var(--e)">0.3619</span>
+      </div>
+    </div>
+
+    <div class="calc-group" style="margin-top:4px;">
+      <div class="calc-group-label e">φ_E results — all 8 Ε properties</div>
+      <div class="calc-row">
+        <div class="calc-cell calc-prop">electronegativity</div>
+        <div class="calc-cell calc-math">x̃ = 0.4575</div>
+        <div class="calc-cell calc-result e">0.3619</div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-cell calc-prop">ionisation energy</div>
+        <div class="calc-cell calc-math">x̃ = 0.3213</div>
+        <div class="calc-cell calc-result e">0.3687</div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-cell calc-prop">atomic radius</div>
+        <div class="calc-cell calc-math">x̃ = 0.4228</div>
+        <div class="calc-cell calc-result e">0.3620</div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-cell calc-prop">melting point</div>
+        <div class="calc-cell calc-math">x̃ = 0.4901</div>
+        <div class="calc-cell calc-result e">0.3630</div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-cell calc-prop">boiling point</div>
+        <div class="calc-cell calc-math">x̃ = 0.5642</div>
+        <div class="calc-cell calc-result e">0.3686</div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-cell calc-prop">density</div>
+        <div class="calc-cell calc-math">x̃ = 0.3485</div>
+        <div class="calc-cell calc-result e">0.3660</div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-cell calc-prop">period</div>
+        <div class="calc-cell calc-math">x̃ = 0.5714</div>
+        <div class="calc-cell calc-result e">0.3691</div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-cell calc-prop">group</div>
+        <div class="calc-cell calc-math">x̃ = 0.4444</div>
+        <div class="calc-cell calc-result e">0.3619</div>
+      </div>
+    </div>
+
+    <!-- B encoding -->
+    <div class="calc-group" style="margin-top:20px;">
+      <div class="calc-group-label b">φ_B results — both Β properties</div>
+      <div class="calc-row">
+        <div class="calc-cell calc-prop">electron affinity</div>
+        <div class="calc-cell calc-math">exp(−e × (0.5226 − 0.5)²) = exp(−0.00139)</div>
+        <div class="calc-cell calc-result b">0.9986</div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-cell calc-prop">N/Z stability</div>
+        <div class="calc-cell calc-math">exp(−e × (0.7686 − 0.5)²) = exp(−0.1962)</div>
+        <div class="calc-cell calc-result b">0.8219</div>
+      </div>
+    </div>
+    <div class="note" style="margin-top:4px;">
+      <strong>N/Z note:</strong> Iron's most stable isotope (⁵⁶Fe) has 30 neutrons and 26 protons — N/Z = 1.154. The stability line at Z = 26 predicts N/Z ≈ 1.038. The deviation of 0.116 gives x̃ = 0.769, pulling φ_B below 1.0. Iron is close to the stability line but not exactly on it — a small real deviation, correctly captured.
+    </div>
+  </div>
+
+  <!-- STEP 4: AGGREGATE -->
+  <div class="step">
+    <div class="step-head">
+      <span class="step-num">Step 4</span>
+      <span class="step-title">Aggregate — mean within each type</span>
+    </div>
+
+    <div class="agg-block">
+      <div class="agg-label">Π-SCORE  (1 property)</div><br>
+      <span class="agg-sum">(−0.1997)</span> <span style="color:var(--dim)">÷</span> <span class="agg-n">1</span>
+      &nbsp;=&nbsp; <span class="agg-res pi">Π = −0.200</span><br><br>
+
+      <div class="agg-label">Ε-SCORE  (8 properties)</div><br>
+      <span class="agg-sum">(0.3619 + 0.3687 + 0.3620 + 0.3630 + 0.3686 + 0.3660 + 0.3691 + 0.3619)</span> <span style="color:var(--dim)">÷</span> <span class="agg-n">8</span><br>
+      <span class="agg-sum">= 2.9212</span> <span style="color:var(--dim)">÷</span> <span class="agg-n">8</span>
+      &nbsp;=&nbsp; <span class="agg-res e">Ε = 0.365</span><br><br>
+
+      <div class="agg-label">Β-SCORE  (2 properties)</div><br>
+      <span class="agg-sum">(0.9986 + 0.8219)</span> <span style="color:var(--dim)">÷</span> <span class="agg-n">2</span><br>
+      <span class="agg-sum">= 1.8205</span> <span style="color:var(--dim)">÷</span> <span class="agg-n">2</span>
+      &nbsp;=&nbsp; <span class="agg-res b">Β = 0.910</span>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div class="result-banner">
+    <div class="result-label">Final TSA fingerprint — Iron (Fe, Z=26)</div>
+    <div class="result-triple">
+      <div class="result-coord">
+        <div class="result-coord-sym pi">Π</div>
+        <div class="result-coord-val pi">−0.200</div>
+      </div>
+      <div class="result-coord">
+        <div class="result-coord-sym e">Ε</div>
+        <div class="result-coord-val e">0.365</div>
+      </div>
+      <div class="result-coord">
+        <div class="result-coord-sym b">Β</div>
+        <div class="result-coord-val b">0.910</div>
+      </div>
+    </div>
+    <div class="result-interp">
+      <div class="interp-item">
+        <div class="interp-head pi">Π = −0.200</div>
+        <div class="interp-body">Iron sits at the nuclear binding energy maximum. The negative Π score places it past the cascade peak — where nucleosynthesis reverses direction. No other structural metal occupies this position.</div>
+      </div>
+      <div class="interp-item">
+        <div class="interp-head e">Ε = 0.365</div>
+        <div class="interp-body">Mid-range equilibrium. Iron's thermodynamic and electronic properties are well-bounded and periodic — characteristic of a d-block transition metal with stable, predictable behaviour under process conditions.</div>
+      </div>
+      <div class="interp-item">
+        <div class="interp-head b">Β = 0.910</div>
+        <div class="interp-body">High boundary score. Iron is near the stability line (N/Z deviation = 0.116) and its electron affinity sits close to the metal/non-metal boundary. It is structurally at the separatrix — a natural structural material, not an absorber, not a moderator.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>Verification:</strong> These values can be confirmed by running <code style="font-family:var(--mono);color:var(--e)">python phosphorus.py --query Fe</code>. The classifier output matches this manual computation to 3 decimal places. The computation uses no fitted parameters, no training data, and no tuned weights — only the raw property values and the fixed physical constants above.
+  </div>
+
+</div>
+</body>
+</html>
