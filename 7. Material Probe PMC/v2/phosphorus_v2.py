@@ -246,10 +246,13 @@ def build_db(rows: list) -> list:
         if Z is None:
             continue
         fp = compute_fp(row)
+        period, group = period_and_group(int(Z))
         db.append({
             "Symbol": row.get("Symbol", "?").strip(),
             "Name":   row.get("Name",   "?").strip(),
             "Z":      int(Z),
+            "period": period,
+            "group":  group,
             **fp,
         })
     return sorted(db, key=lambda el: el["Z"])
@@ -274,6 +277,36 @@ def find_nearest(target: dict, db: list, k: int = 5, exclude: str = None) -> lis
     ]
     scored.sort(key=lambda x: x[0])
     return scored[:k]
+
+def find_by_grid(g: int, p: int, db: list, k: int = 5, exclude: str = None) -> list:
+    """
+    Manhattan distance search on the periodic table grid.
+    Returns k nearest elements sorted by |Δgroup| + |Δperiod|, tiebroken by Z.
+    Lanthanides / actinides are assigned group 3 (convention).
+    """
+    scored = []
+    for el in db:
+        if exclude and el["Symbol"].upper() == exclude.upper():
+            continue
+        eg, ep = el.get("group"), el.get("period")
+        if eg is None or ep is None:
+            continue
+        dist = abs(g - eg) + abs(p - ep)
+        scored.append((dist, el))
+    scored.sort(key=lambda x: (x[0], x[1]["Z"]))
+    return scored[:k]
+
+def show_grid_table(results: list, header: str):
+    W = 76
+    print(f"\n  {header}")
+    print(f"  {'─'*W}")
+    print(f"  {'Sym':<5} {'Name':<18} {'Z':>3}  {'Grp':>4}  {'Per':>4}  {'Π':>7}  {'Ε':>7}  {'Β':>7}  {'ΔMhtn':>6}")
+    print(f"  {'─'*W}")
+    for dist, el in results:
+        print(f"  {el['Symbol']:<5} {el['Name']:<18} {el['Z']:>3}  "
+              f"{el.get('group', 0):>4}  {el.get('period', 0):>4}  "
+              f"{fv(el['PI'])}  {fv(el['E'])}  {fv(el['B'])}  {int(dist):>6}")
+    print(f"  {'─'*W}\n")
 
 # ── DISPLAY ───────────────────────────────────────────────────────────────────
 
@@ -398,6 +431,24 @@ Examples:
         except (ValueError, IndexError) as exc:
             print(f"Error parsing --props: {exc}\nExpected: key=value pairs, e.g. density=7.87")
             sys.exit(1)
+
+        # Normalise keys through aliases
+        normalized = {PROP_ALIASES.get(k.lower(), k.lower()): v for k, v in props.items()}
+
+        # ── Grid branch: group + period supplied → Manhattan on periodic table ──
+        if "group" in normalized and "period" in normalized:
+            tg = int(round(normalized["group"]))
+            tp = int(round(normalized["period"]))
+            print(f"\n  Grid query  group={tg}  period={tp}"
+                  f"  → Manhattan distance on periodic table")
+            results = find_by_grid(tg, tp, db, k=args.k)
+            show_grid_table(
+                results,
+                header=f"Nearest {args.k} to (group={tg}, period={tp}) by Manhattan distance"
+            )
+            return
+
+        # ── TSA branch: all other property queries ──
         fp = props_to_fp(props)
         print(f"\n  Query fingerprint   Π={fv(fp['PI'])}  Ε={fv(fp['E'])}  Β={fv(fp['B'])}")
         results = find_nearest(fp, db, k=args.k)
