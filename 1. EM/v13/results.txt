@@ -1,0 +1,137 @@
+PS D:\_Formal Machine Learning System\ISPCC -- TSA\1. EM\v13> python intentional_doe_publish_v2.py --dataset last_run_designs.csv --top-folds 2 --train-final --save-model surrogate_4simm_last.joblib
+[INFO] 200 HFSS points  y=[0.319, 3.971] W/m²
+[INFO] Pool: 25 high-SAR (≥2 W/m²) = 12%
+[INFO] Pool wg (Π31>1): 43 / 200
+[INFO] Published v7 N=60 best: R²=0.6603
+[INFO] Fold aggregation mode : top-2/5 folds  ← best-fold filter active
+[INFO] Feature sets: raw=4  ridge-s1=7  encoded=127
+[INFO] Precomputing 7D MaxiMin distance matrix...
+
+========================================================================
+  RUNNING ALL MODELS × ALL N VALUES
+========================================================================
+
+── N=30 ────────────────────────────────────────────────────────────
+   MaxiMin selection: wg=10  dp=20  high-SAR≥2=6  Π31=[0.297,2.761]
+   RAW   (avg 10 seeds): R²=+0.5124 ± 0.1405
+   v7 3SIMM          : R²=+0.7640 ± 0.0742
+   4SIMM-A [E-nar(6) S2b-all]: R²=+0.5364 ± 0.0731
+   4SIMM-B [E-wid(15) S2b-all]: R²=+0.6379 ± 0.0236
+   4SIMM-C [E-nar(6) S2b-dp ]: R²=+0.5840 ± 0.0180
+   4SIMM-D [E-wid(15) S2b-dp ]: R²=+0.6541 ± 0.0546
+
+── N=40 ────────────────────────────────────────────────────────────
+   MaxiMin selection: wg=13  dp=27  high-SAR≥2=8  Π31=[0.297,2.761]
+   RAW   (avg 10 seeds): R²=+0.5756 ± 0.1414
+   v7 3SIMM          : R²=+0.8216 ± 0.0225
+   4SIMM-A [E-nar(6) S2b-all]: R²=+0.6707 ± 0.0609
+   4SIMM-B [E-wid(15) S2b-all]: R²=+0.7012 ± 0.0340
+   4SIMM-C [E-nar(6) S2b-dp ]: R²=+0.6576 ± 0.0509
+   4SIMM-D [E-wid(15) S2b-dp ]: R²=+0.6865 ± 0.0163
+
+── N=60 ────────────────────────────────────────────────────────────
+   MaxiMin selection: wg=21  dp=39  high-SAR≥2=11  Π31=[0.297,2.761]
+   RAW   (avg 10 seeds): R²=+0.6297 ± 0.1190
+   v7 3SIMM          : R²=+0.7738 ± 0.0173
+   4SIMM-A [E-nar(6) S2b-all]: R²=+0.6782 ± 0.0421
+   4SIMM-B [E-wid(15) S2b-all]: R²=+0.7022 ± 0.0453
+   4SIMM-C [E-nar(6) S2b-dp ]: R²=+0.6722 ± 0.0699
+   4SIMM-D [E-wid(15) S2b-dp ]: R²=+0.7019 ± 0.0618
+
+── N=80 ────────────────────────────────────────────────────────────
+   MaxiMin selection: wg=26  dp=54  high-SAR≥2=12  Π31=[0.297,2.761]
+   RAW   (avg 10 seeds): R²=+0.5818 ± 0.0823
+   v7 3SIMM          : R²=+0.6589 ± 0.0332
+   4SIMM-A [E-nar(6) S2b-all]: R²=+0.5680 ± 0.0077
+   4SIMM-B [E-wid(15) S2b-all]: R²=+0.5689 ± 0.0164
+   4SIMM-C [E-nar(6) S2b-dp ]: R²=+0.5451 ± 0.0013
+   4SIMM-D [E-wid(15) S2b-dp ]: R²=+0.5441 ± 0.0350
+
+── N=100 ────────────────────────────────────────────────────────────
+   MaxiMin selection: wg=29  dp=71  high-SAR≥2=15  Π31=[0.297,2.761]
+   RAW   (avg 10 seeds): R²=+0.6369 ± 0.0541
+   v7 3SIMM          : R²=+0.7565 ± 0.0007
+   4SIMM-A [E-nar(6) S2b-all]: R²=+0.6760 ± 0.0629
+   4SIMM-B [E-wid(15) S2b-all]: R²=+0.6963 ± 0.0510
+   4SIMM-C [E-nar(6) S2b-dp ]: R²=+0.6780 ± 0.0392
+   4SIMM-D [E-wid(15) S2b-dp ]: R²=+0.6820 ± 0.0378
+
+
+==========================================================================================
+  COMPARISON TABLE  —  Mean R² (± std across folds)
+  Fold aggregation : top-2/5 folds
+  4SIMM gate: hard (Π31 = 1.0)  |  Δ columns: vs v7 at same N
+==========================================================================================
+  Model         Description                             N=30  N=40  N=60  N=80  N=100
+  ────────────────────────────────────────────────────────────────────────────────────────
+  RAW           raw-4, rand sel, RF only                +0.512  +0.576  +0.630  +0.582  +0.637
+  v7            7D MaxiMin, Ridge(7)+RF(127)            +0.764  +0.822  +0.774  +0.659  +0.757
+  4SIMM-A       hard gate, E-narrow(6), S2b-all         +0.536  +0.671  +0.678  +0.568  +0.676
+  4SIMM-B       hard gate, E-wide(15),  S2b-all         +0.638  +0.701  +0.702  +0.569  +0.696
+  4SIMM-C       hard gate, E-narrow(6), S2b-dp          +0.584  +0.658  +0.672  +0.545  +0.678
+  4SIMM-D       hard gate, E-wide(15),  S2b-dp          +0.654  +0.686  +0.702  +0.544  +0.682
+
+  Std deviations (σ):
+  ────────────────────────────────────────────────────────────────────────────────────────
+  RAW                                                    0.141   0.141   0.119   0.082   0.054
+  v7                                                     0.074   0.022   0.017   0.033   0.001
+  4SIMM-A                                                0.073   0.061   0.042   0.008   0.063
+  4SIMM-B                                                0.024   0.034   0.045   0.016   0.051
+  4SIMM-C                                                0.018   0.051   0.070   0.001   0.039
+  4SIMM-D                                                0.055   0.016   0.062   0.035   0.038
+
+  Δ R² vs v7 at each N (positive = better than v7):
+  ────────────────────────────────────────────────────────────────────────────────────────
+  RAW                                                   -0.252  -0.246  -0.144  -0.077  -0.120
+  4SIMM-A                                               -0.228  -0.151  -0.096  -0.091  -0.080
+  4SIMM-B                                               -0.126  -0.120  -0.072  -0.090  -0.060
+  4SIMM-C                                               -0.180  -0.164  -0.102  -0.114  -0.078
+  4SIMM-D                                               -0.110  -0.135  -0.072  -0.115  -0.075
+
+  Best model per N:
+  ──────────────────────────────────────────────────
+  N= 30: v7           R²=+0.7640 ± 0.0742
+  N= 40: v7           R²=+0.8216 ± 0.0225
+  N= 60: v7           R²=+0.7738 ± 0.0173
+  N= 80: v7           R²=+0.6589 ± 0.0332
+  N=100: v7           R²=+0.7565 ± 0.0007
+
+  Reference: published v7 N=60 → R²=0.6603 ± 0.0988
+  [v7 N=60 this run : R²=0.7738 ± 0.0173]
+
+[TIMING] 283.6s
+==========================================================================================
+
+── Fold group analysis (v7, best N) ─────────────────────────────
+  top-1  (best fold)    : +0.8880 ± 0.0392  per seed: [0.845, 0.962, 0.875, 0.884, 0.875]
+  top-2  (best 2 folds) : +0.8436 ± 0.0475  per seed: [np.float64(0.836), np.float64(0.933), np.float64(0.814), np.float64(0.796), np.float64(0.839)]
+  next-2 (3rd+4th folds): +0.6043 ± 0.0741  per seed: [np.float64(0.676), np.float64(0.702), np.float64(0.504), np.float64(0.584), np.float64(0.556)]
+[Surrogate] Saved → surrogate_080.joblib  (v7, N=32)
+  [0.8 surrogate] R²=0.8844  saved → surrogate_080.joblib
+[Surrogate] Saved → surrogate_090.joblib  (v7, N=32)
+  [0.9 surrogate] R²=0.9616  saved → surrogate_090.joblib
+
+========================================================================
+  TRAINING FINAL SURROGATE: v7  N=40
+  CV performance (this run): R²=0.8216 ± 0.0225  [top-2/5 folds]
+========================================================================
+
+==========================================================
+  Surrogate4SIMM — Model Summary
+==========================================================
+  Variant         : v7
+  N selected      : 40
+  CV R²           : 0.8216 ± 0.0225  [top-2/5 folds]
+  Train R² (no CV): 0.9364  (expected higher — no held-out fold)
+  RF estimators   : 500
+  Encoding maxes  : 23 values stored
+  HFSS pool       : 200 points (for local diagnostics)
+==========================================================
+
+[Surrogate] Saved → surrogate_4simm_last.joblib  (v7, N=40)
+
+  ── How to load and predict ──────────────────────────────
+  from intentional_doe_publish_v1 import Surrogate4SIMM
+  model  = Surrogate4SIMM.load('surrogate_4simm_last.joblib')
+  y_pred = model.predict(df_new)   # returns np.ndarray [W/m²]
+  ─────────────────────────────────────────────────────────

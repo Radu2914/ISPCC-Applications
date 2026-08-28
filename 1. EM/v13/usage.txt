@@ -1,0 +1,16 @@
+USAGE EXAMPLES
+--------------
+  # 1. CV validation only (identical to v9):
+  python intentional_doe_publish_v2.py --dataset data.csv
+
+  # 2. CV + auto-select best model and train surrogate (test surrogate):
+  python intentional_doe_publish_v2.py --dataset data.csv --train-final
+
+  # 3. CV + top-folds filter + auto surrogate:
+  python intentional_doe_publish_v2.py --dataset data.csv \\
+      --top-folds 2 --train-final
+
+  # 4. Pin a specific variant and N:
+  python intentional_doe_publish_v2.py --dataset data.csv \\
+      --train-final --variant 4SIMM-B --n-final 200 \\
+      --save-model surrogate_4simm_B200.joblib
