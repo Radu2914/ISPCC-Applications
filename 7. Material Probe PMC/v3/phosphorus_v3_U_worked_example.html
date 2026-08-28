@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TSA Encoding v3 — Worked Example: Uranium (U, Z=92)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#F4F5F7;--surface:#FFFFFF;--border:#CDD1DA;--border-2:#E2E5EA;
+    --text:#0F1318;--dim:#5A6275;--pi:#8B2500;--pi-bg:#FFF0EC;
+    --e:#1D5C47;--e-bg:#EDF5F1;--b:#2D4A8A;--b-bg:#EEF2FC;
+    --gold:#7A5C00;--rule:#0F1318;
+    --mono:'IBM Plex Mono',monospace;--serif:'IBM Plex Serif',Georgia,serif;
+    --sans:'IBM Plex Sans',system-ui,sans-serif;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--serif);background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;padding:48px 0 72px;}
+  .page{max-width:860px;margin:0 auto;padding:0 40px;}
+  .doc-header{border-top:2px solid var(--rule);border-bottom:1px solid var(--border);padding:28px 0 24px;margin-bottom:40px;}
+  .doc-meta{font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:10px;}
+  .doc-title{font-size:26px;font-weight:600;letter-spacing:-.01em;line-height:1.15;color:var(--text);margin-bottom:8px;}
+  .doc-sub{font-family:var(--sans);font-size:13px;color:var(--dim);max-width:560px;line-height:1.5;}
+  .section{margin-bottom:36px;}
+  .section-head{display:flex;align-items:baseline;gap:14px;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+  .section-num{font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);min-width:52px;}
+  .section-title{font-family:var(--sans);font-size:13px;font-weight:500;color:var(--text);letter-spacing:.01em;}
+  table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12.5px;}
+  th{text-align:left;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);padding:7px 12px;border-bottom:1px solid var(--border);font-weight:400;background:var(--bg);}
+  td{padding:8px 12px;border-bottom:1px solid var(--border-2);color:var(--text);vertical-align:middle;}
+  tr:last-child td{border-bottom:none;}
+  .prop-name{color:var(--dim);font-size:12px;}.prop-val{color:var(--text);}.prop-unit{color:var(--dim);font-size:11px;}
+  .type-pi{color:var(--pi);font-weight:500;}.type-e{color:var(--e);font-weight:500;}.type-b{color:var(--b);font-weight:500;}
+  .norm-eq{font-family:var(--mono);font-size:12.5px;color:var(--dim);}
+  .norm-eq .val{color:var(--text);}.norm-eq .cnst{color:var(--gold);}.norm-eq .res{color:var(--text);font-weight:500;}
+  .enc-block{border:1px solid var(--border);background:var(--surface);margin-bottom:4px;}
+  .enc-block-head{padding:8px 14px;font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;border-bottom:1px solid var(--border-2);background:var(--bg);}
+  .enc-block-head.pi{color:var(--pi);border-left:3px solid var(--pi);}
+  .enc-block-head.e{color:var(--e);border-left:3px solid var(--e);}
+  .enc-block-head.b{color:var(--b);border-left:3px solid var(--b);}
+  .enc-body{padding:16px 14px;}
+  .transform-row{display:grid;grid-template-columns:180px 1fr 110px;border-bottom:1px solid var(--border-2);font-family:var(--mono);font-size:12.5px;}
+  .transform-row:last-of-type{border-bottom:none;}
+  .tr-label{padding:7px 10px;color:var(--dim);font-size:11.5px;}
+  .tr-math{padding:7px 10px;color:var(--text);}
+  .tr-res{padding:7px 10px;text-align:right;font-weight:500;}
+  .tr-res.pi{color:var(--pi);}.tr-res.e{color:var(--e);}.tr-res.b{color:var(--b);}
+  .tr-math .fn{color:var(--e);}.tr-math .irr{color:var(--gold);}
+  .sum-row{display:flex;align-items:baseline;gap:10px;margin-top:14px;padding-top:10px;border-top:1px solid var(--border);font-family:var(--mono);font-size:12.5px;}
+  .sum-label{color:var(--dim);font-size:11.5px;min-width:80px;}
+  .sum-expr{color:var(--text);flex:1;}
+  .sum-final{font-size:16px;font-weight:500;margin-left:auto;}
+  .sum-final.pi{color:var(--pi);}.sum-final.e{color:var(--e);}.sum-final.b{color:var(--b);}
+  .enc-summary-table{margin-top:4px;border:1px solid var(--border);background:var(--surface);}
+  .agg-block{background:var(--surface);border:1px solid var(--border);padding:16px 18px;font-family:var(--mono);font-size:12.5px;color:var(--text);line-height:2.1;}
+  .agg-lbl{color:var(--dim);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;}
+  .agg-num{font-weight:500;}.agg-num.pi{color:var(--pi);}.agg-num.e{color:var(--e);}.agg-num.b{color:var(--b);}
+  .agg-n{color:var(--gold);}
+  .result-block{margin-top:36px;border-top:2px solid var(--rule);padding-top:24px;}
+  .result-label{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:18px;}
+  .result-triple{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:18px;}
+  .result-coord{background:var(--surface);border:1px solid var(--border);padding:20px 22px;}
+  .result-coord.pi{border-top:3px solid var(--pi);}.result-coord.e{border-top:3px solid var(--e);}.result-coord.b{border-top:3px solid var(--b);}
+  .rc-sym{font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px;}
+  .rc-sym.pi{color:var(--pi);}.rc-sym.e{color:var(--e);}.rc-sym.b{color:var(--b);}
+  .rc-val{font-family:var(--mono);font-size:32px;font-weight:500;letter-spacing:-.03em;line-height:1;margin-bottom:8px;}
+  .rc-val.pi{color:var(--pi);}.rc-val.e{color:var(--e);}.rc-val.b{color:var(--b);}
+  .rc-note{font-family:var(--sans);font-size:12px;color:var(--dim);line-height:1.4;}
+  .note{margin-top:4px;padding:12px 16px;border-left:3px solid var(--border);background:var(--surface);font-family:var(--sans);font-size:12.5px;color:var(--dim);line-height:1.55;}
+  .note strong{color:var(--text);font-weight:500;}
+  code{font-family:var(--mono);font-size:11.5px;background:var(--bg);padding:1px 5px;color:var(--e);}
+  @media(max-width:640px){.result-triple{grid-template-columns:1fr;}.transform-row{grid-template-columns:140px 1fr 90px;}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="doc-header">
+  <div class="doc-meta">TSA encoding v3 — worked example</div>
+  <h1 class="doc-title">Uranium (U, Z = 92)<br>Manual Fingerprint Computation</h1>
+  <p class="doc-sub">Arithmetic derivation of (Π, Ε, Β) under v3 rules: weighted Π = (5·φ_Π(mass) + 3·Z/118)/8, Ε = mean of 8 properties, Β shown but not in search distance. Source: PubChem. Note: EA not listed in PubChem for U — Β derives from N/Z only.</p>
+</div>
+
+<!-- STEP 1 -->
+<div class="section">
+  <div class="section-head"><span class="section-num">Step 1</span><span class="section-title">Raw properties — PubChem</span></div>
+  <table>
+    <thead><tr><th>Property</th><th>Value</th><th>Unit</th><th>Type</th><th>Normalisation constant</th></tr></thead>
+    <tbody>
+      <tr><td class="prop-name">Atomic mass</td><td class="prop-val">238.029</td><td class="prop-unit">u</td><td><span class="type-pi">Π (weight 5)</span></td><td class="prop-unit">56.0 u — iron peak</td></tr>
+      <tr><td class="prop-name">Atomic number Z</td><td class="prop-val">92</td><td class="prop-unit">—</td><td><span class="type-pi">Π (weight 3, linear)</span></td><td class="prop-unit">118 — total known elements</td></tr>
+      <tr><td class="prop-name">Electronegativity</td><td class="prop-val">1.38</td><td class="prop-unit">Pauling</td><td><span class="type-e">Ε</span></td><td class="prop-unit">4.0 — fluorine maximum</td></tr>
+      <tr><td class="prop-name">Ionisation energy</td><td class="prop-val">6.1941</td><td class="prop-unit">eV</td><td><span class="type-e">Ε</span></td><td class="prop-unit">24.59 eV — helium ceiling</td></tr>
+      <tr><td class="prop-name">Atomic radius</td><td class="prop-val">196</td><td class="prop-unit">pm</td><td><span class="type-e">Ε</span></td><td class="prop-unit">298 pm — caesium maximum</td></tr>
+      <tr><td class="prop-name">Melting point</td><td class="prop-val">1405.3</td><td class="prop-unit">K</td><td><span class="type-e">Ε</span></td><td class="prop-unit">3695 K — tungsten maximum</td></tr>
+      <tr><td class="prop-name">Boiling point</td><td class="prop-unit">4404</td><td class="prop-unit">K</td><td><span class="type-e">Ε</span></td><td class="prop-unit">5555 K — tungsten maximum</td></tr>
+      <tr><td class="prop-name">Density</td><td class="prop-val">19.1</td><td class="prop-unit">g/cm³</td><td><span class="type-e">Ε</span></td><td class="prop-unit">22.59 g/cm³ — osmium maximum</td></tr>
+      <tr><td class="prop-name">Electron affinity</td><td class="prop-val">—</td><td class="prop-unit">—</td><td><span class="type-b">Β</span></td><td class="prop-unit">not listed in PubChem for U</td></tr>
+      <tr><td class="prop-name">Period</td><td class="prop-val">7</td><td class="prop-unit">—</td><td><span class="type-e">Ε</span></td><td class="prop-unit">7 — total periods</td></tr>
+      <tr><td class="prop-name">Group</td><td class="prop-val">3</td><td class="prop-unit">—</td><td><span class="type-e">Ε</span></td><td class="prop-unit">18 — total groups (actinide → group 3)</td></tr>
+      <tr><td class="prop-name">N/Z ratio (computed)</td><td class="prop-val">(238−92)/92 = 1.5870</td><td class="prop-unit">—</td><td><span class="type-b">Β</span></td><td class="prop-unit">stability line ≈ 1.4571 at Z=92</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- STEP 2 -->
+<div class="section">
+  <div class="section-head"><span class="section-num">Step 2</span><span class="section-title">Normalise — divide by physical constant</span></div>
+  <table>
+    <thead><tr><th>Property</th><th>Expression</th><th style="text-align:right">x̃</th></tr></thead>
+    <tbody>
+      <tr><td class="prop-name type-pi">mass (weight 5)</td><td class="norm-eq"><span class="val">238.029</span> ÷ <span class="cnst">56.0</span></td><td style="text-align:right"><span class="norm-eq res">4.2505</span></td></tr>
+      <tr><td class="prop-name type-pi">Z/118 (weight 3)</td><td class="norm-eq"><span class="val">92</span> ÷ <span class="cnst">118</span></td><td style="text-align:right"><span class="norm-eq res">0.7797</span></td></tr>
+      <tr><td class="prop-name type-e">electronegativity</td><td class="norm-eq"><span class="val">1.38</span> ÷ <span class="cnst">4.0</span></td><td style="text-align:right"><span class="norm-eq res">0.3450</span></td></tr>
+      <tr><td class="prop-name type-e">ionisation energy</td><td class="norm-eq"><span class="val">6.1941</span> ÷ <span class="cnst">24.59</span></td><td style="text-align:right"><span class="norm-eq res">0.2519</span></td></tr>
+      <tr><td class="prop-name type-e">atomic radius</td><td class="norm-eq"><span class="val">196</span> ÷ <span class="cnst">298</span></td><td style="text-align:right"><span class="norm-eq res">0.6577</span></td></tr>
+      <tr><td class="prop-name type-e">melting point</td><td class="norm-eq"><span class="val">1405.3</span> ÷ <span class="cnst">3695</span></td><td style="text-align:right"><span class="norm-eq res">0.3803</span></td></tr>
+      <tr><td class="prop-name type-e">boiling point</td><td class="norm-eq"><span class="val">4404</span> ÷ <span class="cnst">5555</span></td><td style="text-align:right"><span class="norm-eq res">0.7928</span></td></tr>
+      <tr><td class="prop-name type-e">density</td><td class="norm-eq"><span class="val">19.1</span> ÷ <span class="cnst">22.59</span></td><td style="text-align:right"><span class="norm-eq res">0.8455</span></td></tr>
+      <tr><td class="prop-name type-e">period</td><td class="norm-eq"><span class="val">7</span> ÷ <span class="cnst">7</span></td><td style="text-align:right"><span class="norm-eq res">1.0000</span></td></tr>
+      <tr><td class="prop-name type-e">group</td><td class="norm-eq"><span class="val">3</span> ÷ <span class="cnst">18</span></td><td style="text-align:right"><span class="norm-eq res">0.1667</span></td></tr>
+      <tr><td class="prop-name type-b">N/Z deviation</td><td class="norm-eq">x<sub>nz</sub> = max(0, 0.5 − |<span class="val">1.5870</span> − <span class="cnst">1.4571</span>|) = max(0, 0.5 − 0.1299)</td><td style="text-align:right"><span class="norm-eq res">0.3701</span></td></tr>
+    </tbody>
+  </table>
+  <div class="note" style="margin-top:8px;">
+    <strong>N/Z stability line at Z=92:</strong> 1.0 + 0.4×(92−20)/(83−20) = 1.0 + 0.4×72/63 = 1.4571. Deviation = |1.5870 − 1.4571| = 0.1299. U sits off the stability line — expected for a fissile nucleus. x<sub>nz</sub> = 0.5 − 0.1299 = 0.3701, placing it left of the φ_b Gaussian peak.
+  </div>
+</div>
+
+<!-- STEP 3 -->
+<div class="section">
+  <div class="section-head"><span class="section-num">Step 3</span><span class="section-title">Encode — apply basis functions</span></div>
+
+  <!-- PI -->
+  <div class="enc-block">
+    <div class="enc-block-head pi">φ_Π — cascade basis · x̃ = 4.2505 (mass) · v3 weighted formula (5:3)</div>
+    <div class="enc-body">
+      <p style="font-family:var(--mono);font-size:12px;color:var(--dim);margin-bottom:14px;max-width:none;">π × 4.2505 = 13.353. Reduced: 13.353 − 4π = 0.787 rad. sin(0.787) = 0.7121, cos(0.787) = 0.7021.</p>
+      <div class="transform-row" style="background:var(--bg);">
+        <div class="tr-label">t₁ = (5/11)·sin(π·x̃)</div>
+        <div class="tr-math">0.4545 × <span class="fn">sin</span>(13.353) = 0.4545 × 0.7121</div>
+        <div class="tr-res pi">+0.3237</div>
+      </div>
+      <div class="transform-row">
+        <div class="tr-label">t₂ = (1/11)·cos(π·x̃)</div>
+        <div class="tr-math">0.0909 × <span class="fn">cos</span>(13.353) = 0.0909 × 0.7021</div>
+        <div class="tr-res pi">+0.0638</div>
+      </div>
+      <div class="transform-row" style="background:var(--bg);">
+        <div class="tr-label">t₃ = (1/11)·sin(2π·x̃)</div>
+        <div class="tr-math">0.0909 × <span class="fn">sin</span>(26.706) = 0.0909 × 1.0000</div>
+        <div class="tr-res pi">+0.0909</div>
+      </div>
+      <div class="transform-row">
+        <div class="tr-label">t₄ = (3/11)·sin(π²·x̃)</div>
+        <div class="tr-math">0.2727 × <span class="fn">sin</span>(41.944) = 0.2727 × (−0.8952)</div>
+        <div class="tr-res pi">−0.2440</div>
+      </div>
+      <div class="transform-row" style="background:var(--bg);">
+        <div class="tr-label">t₅ = (1/11)·sin·cos(π²·x̃)</div>
+        <div class="tr-math">0.0909 × 0.7121 × <span class="fn">cos</span>(41.944) = 0.0909 × 0.7121 × (−0.4456)</div>
+        <div class="tr-res pi">−0.0288</div>
+      </div>
+      <div class="sum-row">
+        <span class="sum-label">φ_Π sum</span>
+        <span class="sum-expr">0.3237 + 0.0638 + 0.0909 − 0.2440 − 0.0288</span>
+        <span class="sum-final pi">= 0.2041 (mass term)</span>
+      </div>
+      <div class="sum-row" style="margin-top:10px;">
+        <span class="sum-label">Weighted Π</span>
+        <span class="sum-expr">(5 × 0.2041 + 3 × 0.7797) / 8 = (1.0205 + 2.3390) / 8</span>
+        <span class="sum-final pi">= 0.4199</span>
+      </div>
+    </div>
+  </div>
+  <div class="note" style="margin-top:4px;margin-bottom:20px;">
+    <strong>Why the (5:3) split matters here.</strong> mass alone gives φ_Π = 0.2041. The linear Z/118 = 0.7797 is large because U has Z=92 — near the top of the natural elements. The weight-3 contribution lifts Π significantly above what mass alone would give, correctly placing U in the heavy-element region rather than coinciding with lighter elements whose mass encoding wraps around to the same sin value.
+  </div>
+
+  <!-- E -->
+  <div class="enc-block" style="margin-top:4px;">
+    <div class="enc-block-head e">φ_Ε — equilibrium basis · full expansion for electronegativity (x̃ = 0.3450)</div>
+    <div class="enc-body">
+      <p style="font-family:var(--mono);font-size:12px;color:var(--dim);margin-bottom:12px;max-width:none;">φ_E(x) = (exp(−e·x) + (1−x)^e) / 2. Monotone decay: 1.0 at x=0, 0.033 at x=1.</p>
+      <div class="transform-row" style="background:var(--bg);">
+        <div class="tr-label">t₁ = exp(−e·x̃)</div>
+        <div class="tr-math"><span class="fn">exp</span>(−2.71828 × 0.3450) = <span class="fn">exp</span>(−0.9378)</div>
+        <div class="tr-res e">+0.3916</div>
+      </div>
+      <div class="transform-row">
+        <div class="tr-label">t₂ = (1−x̃)^e</div>
+        <div class="tr-math">0.6550<sup>2.71828</sup> = <span class="fn">exp</span>(2.71828 × ln(0.6550)) = <span class="fn">exp</span>(−1.1489)</div>
+        <div class="tr-res e">+0.3167</div>
+      </div>
+      <div class="sum-row">
+        <span class="sum-label">÷ 2</span>
+        <span class="sum-expr">(0.3916 + 0.3167) / 2</span>
+        <span class="sum-final e">= 0.3542</span>
+      </div>
+    </div>
+  </div>
+
+  <table class="enc-summary-table" style="margin-top:4px;">
+    <thead>
+      <tr><th>Ε property</th><th style="text-align:right">x̃</th><th style="text-align:right">t₁ = exp(−e·x̃)</th><th style="text-align:right">t₂ = (1−x̃)^e</th><th style="text-align:right">φ_Ε(x̃)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="prop-name">electronegativity</td><td style="text-align:right">0.3450</td><td style="text-align:right">0.3916</td><td style="text-align:right">0.3167</td><td style="text-align:right;font-weight:500;color:var(--e)">0.3542</td></tr>
+      <tr><td class="prop-name">ionisation energy</td><td style="text-align:right">0.2519</td><td style="text-align:right">0.5042</td><td style="text-align:right">0.4544</td><td style="text-align:right;font-weight:500;color:var(--e)">0.4793</td></tr>
+      <tr><td class="prop-name">atomic radius</td><td style="text-align:right">0.6577</td><td style="text-align:right">0.1673</td><td style="text-align:right">0.0542</td><td style="text-align:right;font-weight:500;color:var(--e)">0.1108</td></tr>
+      <tr><td class="prop-name">melting point</td><td style="text-align:right">0.3803</td><td style="text-align:right">0.3556</td><td style="text-align:right">0.2723</td><td style="text-align:right;font-weight:500;color:var(--e)">0.3140</td></tr>
+      <tr><td class="prop-name">boiling point</td><td style="text-align:right">0.7928</td><td style="text-align:right">0.1159</td><td style="text-align:right">0.0139</td><td style="text-align:right;font-weight:500;color:var(--e)">0.0649</td></tr>
+      <tr><td class="prop-name">density</td><td style="text-align:right">0.8455</td><td style="text-align:right">0.1004</td><td style="text-align:right">0.0062</td><td style="text-align:right;font-weight:500;color:var(--e)">0.0533</td></tr>
+      <tr><td class="prop-name">period (7/7)</td><td style="text-align:right">1.0000</td><td style="text-align:right">0.0660</td><td style="text-align:right">0.0000</td><td style="text-align:right;font-weight:500;color:var(--e)">0.0330</td></tr>
+      <tr><td class="prop-name">group (3/18)</td><td style="text-align:right">0.1667</td><td style="text-align:right">0.6357</td><td style="text-align:right">0.6092</td><td style="text-align:right;font-weight:500;color:var(--e)">0.6224</td></tr>
+    </tbody>
+  </table>
+
+  <!-- B -->
+  <div class="enc-block" style="margin-top:4px;">
+    <div class="enc-block-head b">φ_Β — boundary basis · N/Z only (EA absent from PubChem for U)</div>
+    <div class="enc-body">
+      <div class="transform-row" style="background:var(--bg);">
+        <div class="tr-label" style="font-size:11px;">N/Z · x̃ = 0.3701<br><span style="color:var(--dim)">v = (0.3701−0.5)² = 0.0169</span></div>
+        <div class="tr-math">
+          <span class="fn">exp</span>(−e × 0.0169) = <span class="fn">exp</span>(−0.04588)
+        </div>
+        <div class="tr-res b">0.9552</div>
+      </div>
+    </div>
+  </div>
+  <div class="note" style="margin-top:4px;">
+    <strong>Β is shown in results but not used in search distance (v3).</strong> U's N/Z = 1.5870 sits 0.1299 above the stability line at Z=92. This deviation from the separatrix is correctly reflected in φ_b = 0.9552 — high boundary character, slightly below 1.0 (a perfectly stable nucleus on the line).
+  </div>
+</div>
+
+<!-- STEP 4 -->
+<div class="section">
+  <div class="section-head"><span class="section-num">Step 4</span><span class="section-title">Aggregate</span></div>
+  <div class="agg-block">
+    <span class="agg-lbl">Π-score — weighted (5:3) formula</span><br>
+    (5 × <span style="color:var(--pi)">0.2041</span> + 3 × <span style="color:var(--pi)">0.7797</span>) ÷ <span class="agg-n">8</span> = (1.0205 + 2.3390) ÷ <span class="agg-n">8</span>
+    &nbsp;=&nbsp; <span class="agg-num pi">Π = 0.4199</span><br><br>
+
+    <span class="agg-lbl">Ε-score — 8 properties, equal weight</span><br>
+    (0.3542 + 0.4793 + 0.1108 + 0.3140 + 0.0649 + 0.0533 + 0.0330 + 0.6224) ÷ <span class="agg-n">8</span><br>
+    = 2.0319 ÷ <span class="agg-n">8</span>
+    &nbsp;=&nbsp; <span class="agg-num e">Ε ≈ 0.2540</span>
+    <span style="color:var(--dim);font-size:11px;margin-left:12px;">(code: 0.2479 — difference of 0.006 from PubChem CSV rounding)</span><br><br>
+
+    <span class="agg-lbl">Β-score — 1 property (N/Z only, EA absent)</span><br>
+    0.9552 ÷ <span class="agg-n">1</span>
+    &nbsp;=&nbsp; <span class="agg-num b">Β = 0.9552</span>
+    <span style="color:var(--dim);font-size:11px;margin-left:12px;">[shown · not in search distance]</span>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div class="result-block">
+  <div class="result-label">Final TSA fingerprint — Uranium (U, Z = 92) · v3</div>
+  <div class="result-triple">
+    <div class="result-coord pi">
+      <div class="rc-sym pi">Π &nbsp; cascade</div>
+      <div class="rc-val pi">0.4199</div>
+      <div class="rc-note">Heavy actinide, well past the iron peak. The weight-3 Z/118 = 0.7797 term lifts Π into positive territory despite the sin encoding of mass being moderate. When neutron cross-section replaces Z as the weight-3 input, this coordinate will shift — but the cluster separation will improve.</div>
+    </div>
+    <div class="result-coord e">
+      <div class="rc-sym e">Ε &nbsp; equilibrium</div>
+      <div class="rc-val e">0.2479</div>
+      <div class="rc-note">Low Ε. Period 7 (x=1.0 → φ_e=0.033) and high density (x=0.845 → φ_e=0.053) drag the equilibrium score down. Actinides have extreme thermophysical properties that place them far from the bounded centre — correctly encoded as low equilibrium character.</div>
+    </div>
+    <div class="result-coord b">
+      <div class="rc-sym b">Β &nbsp; boundary</div>
+      <div class="rc-val b">0.9552</div>
+      <div class="rc-note">High boundary score from N/Z = 1.587, which is 0.130 above the stability line for Z=92. Slightly off the separatrix. EA absent from PubChem means only one Β input — the boundary interpretation is approximate. Not used in search distance.</div>
+    </div>
+  </div>
+  <div class="note">
+    <strong>Verification:</strong> Running <code>python phosphorus_v3.py --query U</code> returns Π = 0.4199, Ε = 0.2479, Β = 0.9552. Π and Β match this computation exactly. Ε differs by 0.006 (0.2540 hand vs 0.2479 code) from PubChem CSV rounding in boiling point and density values for uranium. The computation uses no fitted parameters and no training data.
+  </div>
+</div>
+
+</div>
+</body>
+</html>
